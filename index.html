@@ -122,16 +122,17 @@
       font-size: 0.8125rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #0D0D0D;
+      color: #F5F2EE;
       transition: color 0.3s ease;
       white-space: nowrap;
     }
+    #navbar.scrolled .nav-link { color: #0D0D0D; }
     .nav-link::after {
       content: '';
       position: absolute;
       bottom: -2px; left: 0;
       width: 0; height: 1px;
-      background: #0D0D0D;
+      background: currentColor;
       transition: width 0.3s ease;
     }
     .nav-link:hover::after { width: 100%; }
