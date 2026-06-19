@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MaKe Spaces — Retail Consultancy & Placemaking Agency | Kuala Lumpur, Malaysia</title>
+  <meta name="description" content="MaKe is a boutique retail consultancy and placemaking agency based in Klang Valley, Malaysia. We curate tenant mixes, activate retail spaces, and place F&B, wellness, fitness, and lifestyle brands in malls and shopfronts across Malaysia." />
+  <meta name="keywords" content="retail consultancy Malaysia, placemaking agency KL, tenant mix curation, retail leasing Klang Valley, F&B placement Malaysia, mall activation, shoplot rental KL, retail programming, OR Gelato, Korté Chocolate, Chagee, ZUS Coffee, Mixue, Luckin Coffee, Kumo Omakase, Skillet, Fubu Haus, Bean Brothers, Grumpy Bagels, TAAN Korean Steakhouse, YTL, GuocoLand, IOI Properties, Hap Seng Land, UOA Group, Glomac, Paramount, Quill Citymall, Bandar Utama City Group, EXSIM, Triterra, LGB Group, SPB" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0D0D0D',
+            canvas: '#F5F2EE',
+            stone: '#C4B49A',
+            muted: '#7A7468',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { -webkit-font-smoothing: antialiased; box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      background-color: #F5F2EE;
+      color: #0D0D0D;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── LOGO INTRO SECTION ── */
+
+    #logo-intro {
+      position: relative;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #shader-canvas-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    #shader-canvas-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    #intro-logo-wrap {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform, opacity;
+      z-index: 2;
+    }
+    #intro-logo-wrap img {
+      width: clamp(180px, 32vw, 360px);
+      height: auto;
+      filter: invert(1);
+      display: block;
+      transform-origin: center center;
+    }
+    #intro-fade-overlay {
+      position: absolute;
+      inset: 0;
+      background: #F5F2EE;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── NAV ── */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.25rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s ease, box-shadow 0.4s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(245,242,238,0.96);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(13,13,13,0.08);
+    }
+    @media (max-width: 768px) {
+      #navbar { padding: 1rem 1.25rem; }
+    }
+
+    #nav-logo {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      flex-shrink: 0;
+    }
+    #nav-logo.visible { opacity: 1; }
+    #nav-logo img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-link {
+      position: relative;
+      font-size: 0.8125rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0D0D0D;
+      transition: color 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: #0D0D0D;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 8rem 3rem 5rem;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      #hero { padding: 7rem 1.25rem 4rem; }
+    }
+
+    .hero-noise {
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: 0.6;
+    }
+
+    /* ── HEADLINE ── */
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 8vw, 8.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      max-width: 900px;
+    }
+    @media (max-width: 480px) {
+      .hero-headline { font-size: clamp(2.4rem, 11vw, 3.5rem); line-height: 1.08; }
+    }
+
+    /* ── REVEAL LINES ── */
+    .reveal-line {
+      overflow: hidden;
+      padding-bottom: 0.12em; /* prevent descender clip */
+      margin-bottom: -0.12em;
+    }
+    .reveal-line span {
+      display: block;
+      transform: translateY(115%);
+      transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+      padding-bottom: 0.05em;
+    }
+    .reveal-line.in-view span { transform: translateY(0); }
+
+    /* ── FADE UP ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-up.in-view { opacity: 1; transform: translateY(0); }
+
+    /* ── MARQUEE ── */
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 60s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .mq-item {
+      display: inline-flex;
+      align-items: center;
+      cursor: default;
+    }
+    .mq-keyword {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: 'Inter', sans-serif;
+      color: #F5F2EE;
+      white-space: nowrap;
+      transition: color 0.2s ease, letter-spacing 0.2s ease;
+      padding: 0 0.1em;
+    }
+    .mq-item.is-active .mq-keyword { color: #C4B49A; letter-spacing: 0.18em; }
+    .mq-dot { color: rgba(245,242,238,0.25); font-size: 0.7rem; margin: 0 1.5rem; }
+
+    /* floating cursor card */
+    #mq-cursor-card {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      background: #FAF8F5;
+      border: 1px solid rgba(196,180,154,0.35);
+      padding: 1rem 1.25rem;
+      width: 220px;
+      border-radius: 18px;
+      opacity: 0;
+      transform: scale(0.6) translateY(12px);
+      transform-origin: bottom left;
+      transition: opacity 0.28s cubic-bezier(0.34,1.4,0.64,1),
+                  transform 0.32s cubic-bezier(0.34,1.4,0.64,1);
+      top: 0; left: 0;
+      box-shadow: 0 8px 32px rgba(13,13,13,0.1), 0 2px 8px rgba(13,13,13,0.06);
+    }
+    #mq-cursor-card.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    #mq-cursor-card .cc-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0D0D0D;
+      margin-bottom: 0.35rem;
+      line-height: 1.2;
+    }
+    #mq-cursor-card .cc-def {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      color: #7A7468;
+      line-height: 1.55;
+    }
+    #mq-cursor-card .cc-line {
+      width: 24px;
+      height: 1.5px;
+      background: #C4B49A;
+      margin-bottom: 0.6rem;
+    }
+
+    /* ── PROJECT CARDS ── */
+    .project-card { overflow: hidden; cursor: pointer; position: relative; text-decoration: none; color: inherit; display: block; width: 100%; }
+    .project-card .card-photo { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1; }
+    .ig-hover-badge {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(13,13,13,0.75);
+      backdrop-filter: blur(6px);
+      color: #F5F2EE;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      padding: 0.4rem 0.7rem;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      white-space: nowrap;
+    }
+    .project-card:hover .ig-hover-badge {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .project-card .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(13,13,13,0.65) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .project-card:hover .overlay { opacity: 1; }
+    .project-card .card-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .project-card:hover .card-img { transform: scale(1.04); }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: #0D0D0D; color: #F5F2EE;
+      padding: 0.875rem 1.75rem;
+      font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: 'Inter', sans-serif; font-weight: 500;
+      border: 1px solid #0D0D0D;
+      transition: background 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: transparent; color: #0D0D0D; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent; color: #0D0D0D;
+      padding: 0.875rem 1.75rem;
+      font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase;
+      font-family: 'Inter', sans-serif; font-weight: 500;
+      border: 1px solid #0D0D0D;
+      transition: background 0.3s ease, color 0.3s ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-outline:hover { background: #0D0D0D; color: #F5F2EE; }
+
+    /* ── MISC ── */
+    .divider { height: 1px; background: #0D0D0D; opacity: 0.12; }
+
+    .sector-pill {
+      border: 1px solid rgba(13,13,13,0.2);
+      padding: 0.4rem 1rem;
+      font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #7A7468; transition: all 0.3s ease; cursor: default;
+    }
+    .sector-pill:hover { border-color: #0D0D0D; color: #0D0D0D; }
+    .sector-pill.active {
+      border-color: #0D0D0D; color: #0D0D0D; background: rgba(13,13,13,0.04);
+    }
+
+    /* Animated cycling sector word */
+    .sector-cycle-wrap {
+      position: relative;
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: bottom;
+      height: 1.15em;
+      min-width: 280px;
+    }
+    .sector-word {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      font-style: italic;
+      font-weight: 400;
+      color: #0D0D0D;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+      white-space: nowrap;
+    }
+    .sector-word.enter {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .sector-word.exit {
+      transform: translateY(-110%);
+      opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.55, 0, 0.45, 1), opacity 0.3s ease;
+    }
+
+    .logo-item {
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.25rem 0.75rem;
+      border: 1px solid rgba(13,13,13,0.08);
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.05em; color: #7A7468;
+      text-align: center; text-transform: uppercase;
+      transition: all 0.3s ease; min-height: 72px;
+    }
+    .logo-item:hover { border-color: #0D0D0D; color: #0D0D0D; background: white; }
+
+    /* ── LOGO CAROUSEL ── */
+    .logo-carousel-outer {
+      overflow: hidden;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    .logo-carousel-outer::before,
+    .logo-carousel-outer::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .logo-carousel-outer::before { left: 0;  background: linear-gradient(to right, #F5F2EE 40%, transparent); }
+    .logo-carousel-outer::after  { right: 0; background: linear-gradient(to left,  #F5F2EE 40%, transparent); }
+
+    .logo-carousel-track {
+      display: flex;
+      gap: 1rem;
+      width: max-content;
+      animation: logo-scroll 50s linear infinite;
+    }
+    .logo-carousel-track:hover { animation-play-state: paused; }
+
+    @keyframes logo-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .logo-card {
+      flex-shrink: 0;
+      width: 150px;
+      border: 1px solid rgba(13,13,13,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem 0.75rem 1rem;
+      gap: 0.875rem;
+      cursor: default;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .logo-card:hover {
+      transform: scale(1.06);
+      border-color: rgba(13,13,13,0.18);
+      box-shadow: 0 6px 24px rgba(13,13,13,0.08);
+      z-index: 10;
+    }
+    .logo-card-icon {
+      width: 110px;
+      height: 72px;
+      background: rgba(245,242,238,0.96);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem;
+      flex-shrink: 0;
+    }
+    .logo-card-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .logo-card-name {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.35);
+      text-align: center;
+      line-height: 1.4;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .logo-card:hover .logo-card-name {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── CONTACT CHANNELS ── */
+    .contact-channel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.6rem 0;
+      border-top: 1px solid rgba(245,242,238,0.08);
+      text-decoration: none;
+      color: #F5F2EE;
+      position: relative;
+      overflow: hidden;
+      transition: padding-left 0.35s cubic-bezier(0.4,0,0.2,1);
+      cursor: pointer;
+    }
+    .contact-channel::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: #C4B49A;
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .contact-channel:hover { padding-left: 1.25rem; }
+    .contact-channel:hover::before { transform: scaleY(1); }
+    .contact-channel:last-child { border-bottom: 1px solid rgba(245,242,238,0.08); }
+
+    .cc-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .cc-platform {
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(196,180,154,0.7);
+      font-family: 'Inter', sans-serif;
+      transition: color 0.25s ease;
+    }
+    .contact-channel:hover .cc-platform { color: #C4B49A; }
+    .cc-value {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+      font-weight: 600;
+      color: rgba(245,242,238,0.85);
+      transition: color 0.25s ease;
+      line-height: 1.2;
+    }
+    .contact-channel:hover .cc-value { color: #F5F2EE; }
+
+    .cc-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,242,238,0.25);
+      font-family: 'Inter', sans-serif;
+      transition: color 0.25s ease, gap 0.25s ease;
+    }
+    .contact-channel:hover .cc-cta {
+      color: #C4B49A;
+      gap: 0.75rem;
+    }
+    .cc-cta svg { transition: transform 0.25s ease; }
+    .contact-channel:hover .cc-cta svg { transform: translateX(4px); }
+
+    /* Logo reveal on hover */
+    .contact-channel .cc-logo-reveal {
+      position: absolute;
+      right: 7rem;
+      top: 50%;
+      transform: translateY(-50%) scale(0.7);
+      height: 3.5rem;
+      width: auto;
+      opacity: 0;
+      pointer-events: none;
+      filter: invert(1) opacity(0.18);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+      user-select: none;
+    }
+    .contact-channel:hover .cc-logo-reveal {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+
+    .form-input {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid rgba(13,13,13,0.2);
+      padding: 0.75rem 0;
+      font-family: 'Inter', sans-serif; font-size: 1rem; color: #0D0D0D;
+      outline: none; transition: border-color 0.3s ease;
+    }
+    .form-input::placeholder { color: #7A7468; }
+    .form-input:focus { border-bottom-color: #0D0D0D; }
+
+    .delay-100 { transition-delay: 0.1s; }
+    .delay-200 { transition-delay: 0.2s; }
+    .delay-300 { transition-delay: 0.3s; }
+    .delay-400 { transition-delay: 0.4s; }
+
+    .step-line {
+      position: absolute; top: 1.5rem;
+      left: calc(50% + 1.5rem); right: 0;
+      height: 1px; background: rgba(13,13,13,0.15);
+    }
+    @media (max-width: 768px) { .step-line { display: none; } }
+
+    /* ── MOBILE NAV ── */
+    #mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0D0D0D;
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700;
+      color: #F5F2EE; letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+
+    /* ── SECTION PADDING ── */
+    .section-pad { padding: 6rem 3rem; }
+    @media (max-width: 768px) { .section-pad { padding: 4rem 1.25rem; } }
+
+    .section-pad-sm { padding: 4rem 3rem; }
+    @media (max-width: 768px) { .section-pad-sm { padding: 3rem 1.25rem; } }
+
+    /* ══════════════════════════════════════
+       MOBILE RESPONSIVE — comprehensive
+    ══════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Prevent horizontal scroll */
+      html, body { overflow-x: hidden !important; max-width: 100%; }
+
+      /* Navbar — hide GET IN TOUCH, keep hamburger */
+      #navbar .btn-primary { display: none; }
+
+      /* Hero */
+      #hero { padding: 7rem 1.25rem 3.5rem; }
+
+      /* Services marquee — smaller text */
+      .marquee-item { font-size: 0.7rem; padding: 0 1.25rem; gap: 0.75rem; }
+
+      /* Sector cycling text */
+      #sector-cycle { font-size: clamp(2.2rem, 14vw, 3.5rem) !important; }
+
+      /* Tenant/Developer two-column → single column */
+      .services-grid,
+      [style*="grid-template-columns:7fr 5fr"],
+      [style*="grid-template-columns: 7fr 5fr"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      /* How we work steps — single column */
+      [style*="grid-template-columns:repeat(3,1fr)"].steps-grid,
+      .steps-grid { grid-template-columns: 1fr !important; }
+
+      /* About section — stack to single column */
+      .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+      .about-grid .about-photo { display: none; }
+
+      /* About stats — wrap tightly */
+      [style*="display:flex;gap:2.5rem;flex-wrap:wrap"] { gap: 1.5rem !important; }
+
+      /* Projects — fun varied mobile grid */
+
+      /* Row 1: Grumpy Bagels tall-left (3fr), Tjufy square-right (2fr) */
+      .proj-row-1 { grid-template-columns: 3fr 2fr !important; }
+      .proj-row-1 .project-card:first-child { aspect-ratio: 3/4 !important; }
+      .proj-row-1 .project-card:last-child  { aspect-ratio: 1/1 !important; }
+
+      /* Row 2: Niko Neko full-width landscape, Lacher + Ivory half-width tall */
+      .proj-row-2 { grid-template-columns: 1fr 1fr !important; }
+      .proj-row-2 .project-card:first-child {
+        grid-column: 1 / -1 !important;
+        aspect-ratio: 16/7 !important;
+      }
+      .proj-row-2 .project-card:not(:first-child) { aspect-ratio: 3/4 !important; }
+
+      /* Row 3 (4 cards): checkerboard — square + portrait alternating */
+      .proj-row-4 { grid-template-columns: 1fr 1fr !important; }
+      .proj-row-4 .project-card:nth-child(1) { aspect-ratio: 1/1 !important; }
+      .proj-row-4 .project-card:nth-child(2) { aspect-ratio: 3/4 !important; }
+      .proj-row-4 .project-card:nth-child(3) { aspect-ratio: 3/4 !important; }
+      .proj-row-4 .project-card:nth-child(4) { aspect-ratio: 1/1 !important; }
+
+      /* Project card label text size */
+      .project-card h3 { font-size: 0.95rem !important; }
+
+      /* Logo cards — slightly smaller */
+      .logo-card { width: 120px !important; }
+      .logo-card-icon { width: 90px !important; height: 58px !important; }
+
+      /* Contact channels — hide logo reveal (no hover on mobile) */
+      .cc-logo-reveal { display: none; }
+      .contact-channel { padding: 1.25rem 0; flex-wrap: wrap; gap: 0.4rem; }
+      .cc-meta { flex: 1 1 100%; }
+      .cc-value { font-size: 0.95rem !important; word-break: break-all; }
+      .cc-platform { font-size: 0.6rem !important; }
+      .cc-cta { font-size: 0.65rem !important; margin-left: auto; }
+
+      /* Contact section heading */
+      [style*="font-size:clamp(2.5rem"] { font-size: clamp(2rem, 9vw, 3rem) !important; }
+
+      /* Footer */
+      [style*="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+      }
+
+      /* Clients section heading */
+      #clients h2 { margin-bottom: 2rem !important; }
+
+      /* Floating cursor card — hide on mobile (touch devices) */
+      #mq-cursor-card { display: none !important; }
+
+      /* About photo on mobile — hide to avoid layout issues */
+      #about img[style*="object-fit:cover"] { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════════════════════════════════
+     MOBILE MENU
+══════════════════════════════════════ -->
+<div id="mobile-menu">
+  <button onclick="closeMobileMenu()" class="absolute top-5 right-5 text-canvas/60 hover:text-canvas" style="background:none;border:none;cursor:pointer;">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#clients" onclick="closeMobileMenu()">Clients</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#contact" onclick="closeMobileMenu()" style="color:#C4B49A">Get in Touch</a>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#" id="nav-logo">
+    <img src="makelogo.png" alt="MaKe" />
+  </a>
+
+  <div class="hidden md:flex items-center gap-8">
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#clients" class="nav-link">Clients</a>
+    <a href="#about" class="nav-link">About</a>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <a href="#contact" class="btn-primary" style="padding:0.6rem 1.25rem;font-size:0.75rem;">
+      Get in Touch
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <button class="md:hidden" onclick="openMobileMenu()" style="background:none;border:none;cursor:pointer;padding:0.25rem;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="1.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     LOGO INTRO
+══════════════════════════════════════ -->
+
+
+<div id="logo-intro">
+  <div id="shader-canvas-wrap"></div>
+  <div id="intro-fade-overlay"></div>
+  <div id="intro-logo-wrap">
+    <img src="makelogo.png" alt="MaKe" />
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-noise"></div>
+
+  <div class="absolute top-24 right-10 hidden md:block" style="writing-mode:vertical-rl">
+    <p class="text-xs tracking-widest uppercase" style="color:#7A7468;transform:rotate(180deg)">Klang Valley · Malaysia</p>
+  </div>
+
+  <div style="max-width:1280px;margin:0 auto;width:100%">
+    <div class="reveal-line" style="margin-bottom:1.5rem">
+      <span class="text-xs tracking-widest uppercase" style="color:#7A7468;font-family:'Inter',sans-serif">Retail Consultancy &amp; Placemaking</span>
+    </div>
+
+    <h1 class="hero-headline">
+      <div class="reveal-line" style="transition-delay:0s"><span style="font-weight:300;font-size:0.72em">We Place the</span></div>
+      <div class="reveal-line" style="transition-delay:0.12s"><span style="font-weight:900">Right Brands</span></div>
+      <div class="reveal-line" style="transition-delay:0.24s"><span style="font-weight:300;font-size:0.72em">in the</span></div>
+      <div class="reveal-line" style="transition-delay:0.36s"><span style="font-weight:900">Right Spaces.</span></div>
+    </h1>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════
+     MARQUEE — SERVICES
+══════════════════════════════════════ -->
+<section id="services-marquee" style="background:#0D0D0D;color:#F5F2EE;padding:1.5rem 0;overflow:hidden">
+  <div class="marquee-track" id="mq-track"></div>
+</section>
+
+<!-- floating cursor card — appended to body so it's never clipped -->
+<div id="mq-cursor-card">
+  <div class="cc-line"></div>
+  <div class="cc-label" id="mq-cc-label"></div>
+  <div class="cc-def"   id="mq-cc-def"></div>
+</div>
+
+<script>
+(function(){
+  const services = [
+    { k: 'Adaptive Reuse',        d: 'Revitalizing dormant buildings into active destinations' },
+    { k: 'Placemaking',           d: 'Shaping spaces that foster connection and community' },
+    { k: 'Tenant Mix Strategy',   d: 'Balancing F&B, retail, and services for impact' },
+    { k: 'Space Programming',     d: 'Defining proportions, flow, and purpose of use' },
+    { k: 'Curation',              d: 'Selecting concepts and experiences that add authenticity' },
+    { k: 'Activation',            d: 'Sparking energy through events and early engagement' },
+    { k: 'Community Integration', d: 'Embedding local culture into every project' },
+    { k: 'Cultural Mapping',      d: 'Identifying local narratives to shape placemaking' },
+    { k: 'Brand Alignment',       d: 'Ensuring spaces reflect landlord and tenant identity' },
+    { k: 'Destination Strategy',  d: 'Positioning spaces as a go to urban landmark' },
+    { k: 'Lifestyle Anchoring',   d: 'Introducing tenants and uses that define identity' },
+  ];
+
+  const card  = document.getElementById('mq-cursor-card');
+  const clabel = document.getElementById('mq-cc-label');
+  const cdef   = document.getElementById('mq-cc-def');
+  let mx = 0, my = 0, raf;
+
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+  function positionCard() {
+    const W = window.innerWidth, H = window.innerHeight;
+    const cw = card.offsetWidth + 24, ch = card.offsetHeight + 16;
+    let x = mx + 20, y = my - ch / 2;
+    if (x + cw > W) x = mx - cw + 4;
+    if (y < 8) y = 8;
+    if (y + ch > H) y = H - ch - 8;
+    card.style.left = x + 'px';
+    card.style.top  = y + 'px';
+    raf = requestAnimationFrame(positionCard);
+  }
+
+  function show(k, d) {
+    clabel.textContent = k;
+    cdef.textContent   = d;
+    card.classList.add('visible');
+    raf = requestAnimationFrame(positionCard);
+  }
+  function hide() {
+    card.classList.remove('visible');
+    cancelAnimationFrame(raf);
+  }
+
+  const track = document.getElementById('mq-track');
+  function buildSet() {
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;align-items:center;white-space:nowrap;';
+    services.forEach(({ k, d }) => {
+      const item = document.createElement('span');
+      item.className = 'mq-item';
+      item.innerHTML = `<span class="mq-keyword">${k}</span>`;
+      item.addEventListener('mouseenter', () => { show(k, d); item.classList.add('is-active'); });
+      item.addEventListener('mouseleave', () => { hide();      item.classList.remove('is-active'); });
+      wrap.appendChild(item);
+      const dot = document.createElement('span');
+      dot.className = 'mq-dot';
+      dot.textContent = '·';
+      wrap.appendChild(dot);
+    });
+    return wrap;
+  }
+  track.appendChild(buildSet());
+  track.appendChild(buildSet());
+})();
+</script>
+
+
+<!-- ══════════════════════════════════════
+     SERVICES
+══════════════════════════════════════ -->
+<section id="services" class="section-pad">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:3.5rem">
+      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">What We Do</span>
+      <div style="height:1px;width:48px;background:rgba(13,13,13,0.15)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(13,13,13,0.1)">
+
+      <!-- Tenants -->
+      <div class="fade-up" style="padding:clamp(2rem,5vw,4rem);border-right:1px solid rgba(13,13,13,0.1)">
+        <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Tenants</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,3rem);font-weight:900;line-height:1.15;margin-bottom:1.5rem">
+          Find your<br /><em style="font-weight:400;font-style:italic">perfect space.</em>
+        </h2>
+        <p style="color:#7A7468;line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;max-width:340px">
+          Opening an F&amp;B outlet, wellness studio, fitness concept, or lifestyle brand? We match your concept to the right shoplot or retail destination in Klang Valley and soon, Johor and Singapore.
+        </p>
+        <ul style="list-style:none;padding:0;margin:0 0 2.5rem;display:flex;flex-direction:column;gap:0.875rem">
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Space scouting &amp; site matching
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Lease negotiation advisory
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Market &amp; demographic analysis
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Retail strategy &amp; brand positioning
+          </li>
+        </ul>
+        <a href="#contact" class="btn-primary">I'm Looking for a Space</a>
+      </div>
+
+      <!-- Developers -->
+      <div class="fade-up delay-200" style="padding:clamp(2rem,5vw,4rem);background:#0D0D0D;color:#F5F2EE">
+        <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Developers</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,3rem);font-weight:900;line-height:1.15;margin-bottom:1.5rem">
+          Activate your<br /><em style="font-weight:400;font-style:italic">retail asset.</em>
+        </h2>
+        <p style="color:rgba(245,242,238,0.6);line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;max-width:340px">
+          Got a retail space, or shopfront podium that needs the right brands? We curate tenant mixes, design retail programming, and turn empty units into destinations people return to.
+        </p>
+        <ul style="list-style:none;padding:0;margin:0 0 2.5rem;display:flex;flex-direction:column;gap:0.875rem">
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Tenant mix curation &amp; strategy
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Retail programming &amp; placemaking
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Pop-up &amp; activation concepts
+          </li>
+          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
+            <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
+            Brand curation &amp; leasing strategy
+          </li>
+        </ul>
+        <a href="#contact" class="btn-outline" style="border-color:rgba(245,242,238,0.3);color:#F5F2EE">I'm a Developer</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    #services > div > div:last-child {
+      grid-template-columns: 1fr !important;
+    }
+    #services > div > div:last-child > div:first-child {
+      border-right: none !important;
+      border-bottom: 1px solid rgba(13,13,13,0.1);
+    }
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════
+     HOW WE WORK
+══════════════════════════════════════ -->
+<section style="padding:5rem 3rem;background:#0D0D0D;color:#F5F2EE">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:4rem">
+      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">How We Work</span>
+      <div style="height:1px;width:48px;background:rgba(245,242,238,0.1)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0" class="how-grid">
+      <div class="fade-up" style="position:relative;padding-right:3rem">
+        <div class="step-line"></div>
+        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(245,242,238,0.08);line-height:1;margin-bottom:1.5rem">01</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem">Consult</h3>
+        <p style="color:rgba(245,242,238,0.5);font-size:0.875rem;line-height:1.75">
+          We start with a deep understanding of your concept, goals, and constraints. For tenants, that means your brand story. For developers, it means your asset's vision and catchment.
+        </p>
+      </div>
+
+      <div class="fade-up delay-200" style="position:relative;padding:0 3rem">
+        <div class="step-line"></div>
+        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(245,242,238,0.08);line-height:1;margin-bottom:1.5rem">02</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem">Curate</h3>
+        <p style="color:rgba(245,242,238,0.5);font-size:0.875rem;line-height:1.75">
+          We match, shortlist, and negotiate. Every placement is intentional. Right brand, right location, right neighbours. We draw on a deep network built across Klang Valley's retail landscape.
+        </p>
+      </div>
+
+      <div class="fade-up delay-400" style="position:relative;padding-left:3rem">
+        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(245,242,238,0.08);line-height:1;margin-bottom:1.5rem">03</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem">Launch</h3>
+        <p style="color:rgba(245,242,238,0.5);font-size:0.875rem;line-height:1.75">
+          We see it through to opening. From lease signing to fit-out milestones, we stay in your corner until your doors open and your space comes alive.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    .how-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+    .how-grid > div { padding: 0 !important; }
+  }
+  @media (max-width: 768px) {
+    section[style*="padding:5rem 3rem"] { padding: 4rem 1.25rem !important; }
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════
+     PROJECTS
+══════════════════════════════════════ -->
+<section id="projects" class="section-pad">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="margin-bottom:3.5rem" class="fade-up">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+        <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">Featured Placements</span>
+        <div style="height:1px;width:40px;background:rgba(13,13,13,0.1)"></div>
+      </div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.1">
+        Brands in<br /><em style="font-weight:400;font-style:italic">Their Space</em>
+      </h2>
+    </div>
+
+    <!-- Row 1: 2 cards -->
+    <div style="display:grid;grid-template-columns:7fr 5fr;gap:1rem;margin-bottom:1rem" class="proj-row proj-row-1">
+      <a href="https://www.instagram.com/p/DXb_b0Ck-QX/" target="_blank" rel="noopener" class="project-card fade-up" style="aspect-ratio:4/3;display:block">
+        <img class="card-photo" src="grumpy-bagels.jpg/DXb_b0Ck-QX_01.jpg" alt="Grumpy Bagels" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.5rem;left:1.5rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.6rem 1rem">
+            <p style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.2rem">F&amp;B · Sentul Depot</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">Grumpy Bagels</h3>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/p/DWV_zIakk_c/" target="_blank" rel="noopener" class="project-card fade-up delay-100" style="aspect-ratio:4/3;display:block">
+        <img class="card-photo" src="tjufy.jpg/DWV_zIakk_c_01.jpg" alt="Tjufy" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.5rem;left:1.5rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.6rem 1rem">
+            <p style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.2rem">Experience · The Five</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">Tjufy</h3>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Row 2: 3 cards -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem" class="proj-row proj-row-2">
+      <a href="https://www.instagram.com/p/DWwLS3qk13z/" target="_blank" rel="noopener" class="project-card fade-up delay-200" style="aspect-ratio:1/1;display:block">
+        <img class="card-photo" src="niko-neko.jpg/DWwLS3qk13z_01.jpg" alt="Niko Neko" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.5rem;left:1.5rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.6rem 1rem">
+            <p style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.2rem">F&amp;B · The MET</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">Niko Neko</h3>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/p/DW1TK8hEzMl/" target="_blank" rel="noopener" class="project-card fade-up delay-300" style="aspect-ratio:1/1;display:block">
+        <img class="card-photo" src="lacher-patisserie.jpg/DW1TK8hEzMl_01.jpg" alt="Lachér Patisserie" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.5rem;left:1.5rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.6rem 1rem">
+            <p style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.2rem">F&amp;B · The MET</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">Lachér Patisserie</h3>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/p/DW6b6SLE9dr/" target="_blank" rel="noopener" class="project-card fade-up delay-400" style="aspect-ratio:1/1;display:block">
+        <img class="card-photo" src="ivory-bridal.jpg/DW6b6SLE9dr_01.jpg" alt="The Ivory Bridal" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.5rem;left:1.5rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.6rem 1rem">
+            <p style="font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.2rem">Fashion · The MET</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700">The Ivory Bridal</h3>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Row 3: 4 cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem" class="proj-row proj-row-4">
+      <a href="https://www.instagram.com/p/DXHJRXIE5zT/" target="_blank" rel="noopener" class="project-card fade-up" style="aspect-ratio:3/4;display:block">
+        <img class="card-photo" src="lacher-coffee.jpg/DXHJRXIE5zT_01.jpg" alt="Lachér Coffee" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.25rem;left:1.25rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.5rem 0.875rem">
+            <p style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.15rem">F&amp;B · Plaza Conlay</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700">Lachér Coffee</h3>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/p/DXR1BW9gP3w/" target="_blank" rel="noopener" class="project-card fade-up delay-100" style="aspect-ratio:3/4;display:block">
+        <img class="card-photo" src="pickle-depot.jpg/DXR1BW9gP3w_01.jpg" alt="Pickle Depot" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.25rem;left:1.25rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.5rem 0.875rem">
+            <p style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.15rem">Wellness · Sentul Depot</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700">Pickle Depot</h3>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/p/DXZWbTyE8YM/" target="_blank" rel="noopener" class="project-card fade-up delay-200" style="aspect-ratio:3/4;display:block">
+        <img class="card-photo" src="or-gelato.jpg/DXZWbTyE8YM_01.jpg" alt="OR Gelato" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.25rem;left:1.25rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.5rem 0.875rem">
+            <p style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.15rem">F&amp;B · The MET</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700">OR Gelato</h3>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/p/DWOnWtSE1zP/" target="_blank" rel="noopener" class="project-card fade-up delay-300" style="aspect-ratio:3/4;display:block">
+        <img class="card-photo" src="freia-aesthetic.jpg/DWOnWtSE1zP_01.jpg" alt="Freia Aesthetics" />
+        <div class="overlay"></div>
+        <div class="ig-hover-badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg> View on Instagram</div>
+        <div style="position:absolute;bottom:1.25rem;left:1.25rem;z-index:10">
+          <div style="background:rgba(245,242,238,0.92);backdrop-filter:blur(8px);padding:0.5rem 0.875rem">
+            <p style="font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468;margin-bottom:0.15rem">Wellness · The Five</p>
+            <h3 style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700">Freia Aesthetics</h3>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 640px) {
+    .proj-row { grid-template-columns: 1fr 1fr !important; }
+    .proj-row-4 { grid-template-columns: 1fr 1fr !important; }
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════
+     SECTORS
+══════════════════════════════════════ -->
+<section class="section-pad" style="border-top:1px solid rgba(13,13,13,0.1);text-align:center">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="fade-up">
+      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">Sectors We Serve</span>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:900;margin-top:1rem;line-height:1.1">
+        <span style="display:block;font-size:clamp(1.4rem,3.5vw,2.75rem);white-space:nowrap">We curate spaces for</span>
+        <span class="sector-cycle-wrap" id="sector-cycle" style="font-size:clamp(2.8rem,7vw,5.5rem);min-width:0;display:block;position:relative;overflow:hidden;height:1.15em">
+          <span class="sector-word" data-sector="F&amp;B">F&amp;B</span>
+          <span class="sector-word" data-sector="Wellness">Wellness</span>
+          <span class="sector-word" data-sector="Fitness">Fitness</span>
+          <span class="sector-word" data-sector="Lifestyle">Lifestyle</span>
+          <span class="sector-word" data-sector="Beauty">Beauty</span>
+          <span class="sector-word" data-sector="Fashion">Fashion</span>
+          <span class="sector-word" data-sector="Home &amp; Living">Home &amp; Living</span>
+          <span class="sector-word" data-sector="Electronics">Electronics</span>
+          <span class="sector-word" data-sector="Entertainment">Entertainment</span>
+          <span class="sector-word" data-sector="Services">Services</span>
+        </span>
+      </h2>
+    </div>
+    <div id="sector-pills" style="display:none">
+      <div class="sector-pill" data-pill="Entertainment">Entertainment</div>
+      <div class="sector-pill" data-pill="Services">Services</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CLIENTS
+══════════════════════════════════════ -->
+<section id="clients" class="section-pad">
+  <div style="max-width:1280px;margin:0 auto">
+
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">Retail Clients</span>
+      <div style="height:1px;width:48px;background:rgba(13,13,13,0.15)"></div>
+    </div>
+    <h2 class="fade-up delay-100" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:3rem">
+      Brands that<br /><em style="font-weight:400;font-style:italic">trust us.</em>
+    </h2>
+
+    <div class="fade-up delay-200 logo-carousel-outer" id="brand-grid"></div>
+
+    <div style="margin-top:4rem">
+      <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
+        <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">Developer &amp; Landlord</span>
+        <div style="height:1px;width:48px;background:rgba(13,13,13,0.15)"></div>
+      </div>
+      <div class="fade-up delay-100 logo-carousel-outer" id="dev-grid"></div>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
+<section id="about" class="section-pad">
+  <div style="max-width:1280px;margin:0 auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,6rem);align-items:center" class="about-grid">
+
+      <div class="fade-up">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem">
+          <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">About MaKe</span>
+          <div style="height:1px;width:40px;background:rgba(13,13,13,0.1)"></div>
+        </div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.75rem);font-weight:900;line-height:1.1;margin-bottom:2rem">
+          The agency that<br /><em style="font-weight:400;font-style:italic">curates destinations</em>
+        </h2>
+        <p style="color:#7A7468;line-height:1.75;margin-bottom:1.25rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
+          MaKe is a boutique retail consultancy and placemaking agency based in Kuala Lumpur, Malaysia. We believe every space has a story, and every brand deserves to tell it in the right location.
+        </p>
+        <p style="color:#7A7468;line-height:1.75;margin-bottom:1.25rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
+          We work with brands across F&amp;B, wellness, fitness, and lifestyle to find and secure spaces that truly fit. On the developer side, we help curate retail environments that draw the right tenants and turn properties into destinations.
+        </p>
+        <p style="color:#7A7468;line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
+          Currently operating across Klang Valley, with expansion into Johor and Singapore underway.
+        </p>
+        <div style="display:flex;gap:2.5rem;flex-wrap:wrap">
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">30+</div>
+            <div style="font-size:0.7rem;color:#7A7468;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.25rem">Brands Placed</div>
+          </div>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">14</div>
+            <div style="font-size:0.7rem;color:#7A7468;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.25rem">Developer Partners</div>
+          </div>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">3</div>
+            <div style="font-size:0.7rem;color:#7A7468;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.25rem">Markets</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up delay-200">
+        <div style="position:relative;overflow:hidden;height:480px">
+          <img src="about-photo.png" alt="MaKe retail spaces — The Row, The Stories of Taman Tunku, The Five, The Me, Sentul" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+<section id="contact" class="section-pad" style="background:#0D0D0D;color:#F5F2EE">
+  <div style="max-width:1280px;margin:0 auto">
+
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">Get in Touch</span>
+      <div style="height:1px;width:48px;background:rgba(245,242,238,0.1)"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,8rem)" class="contact-grid">
+
+      <div class="fade-up">
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.75rem);font-weight:900;line-height:1.1;margin-bottom:1.5rem">
+          Let's find your<br /><em style="font-weight:400;font-style:italic">next space.</em>
+        </h2>
+        <p style="color:rgba(245,242,238,0.5);line-height:1.75;margin-bottom:2.5rem;max-width:340px;font-size:0.9375rem">
+          Whether you're a brand looking for the right shopfront, or a developer looking to activate your asset, we'd love to hear from you.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:1rem;font-size:0.875rem;color:rgba(245,242,238,0.4)">
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C4B49A" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Klang Valley, Malaysia
+          </div>
+          <div style="display:flex;align-items:center;gap:0.75rem">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C4B49A" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+            Expanding to Johor &amp; Singapore
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up delay-200">
+
+        <a href="https://wa.me/60177750719" target="_blank" rel="noopener" class="contact-channel" data-logo="Ke">
+          <img src="ke.png" alt="" class="cc-logo-reveal" />
+          <span class="cc-meta">
+            <span class="cc-platform">WhatsApp</span>
+            <span class="cc-value">+6017 775 0719</span>
+          </span>
+          <span class="cc-cta">
+            Chat now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+        <a href="https://wa.me/60128766587" target="_blank" rel="noopener" class="contact-channel" data-logo="Ma">
+          <img src="ma.png.png" alt="" class="cc-logo-reveal" />
+          <span class="cc-meta">
+            <span class="cc-platform">WhatsApp</span>
+            <span class="cc-value">+6012 876 6587</span>
+          </span>
+          <span class="cc-cta">
+            Chat now
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+        <a href="https://instagram.com/makespacesmy" target="_blank" rel="noopener" class="contact-channel">
+          <span class="cc-meta">
+            <span class="cc-platform">Instagram</span>
+            <span class="cc-value">@makespacesmy</span>
+          </span>
+          <span class="cc-cta">
+            Follow us
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+        <a href="mailto:hello@makespacesconcept.com" class="contact-channel">
+          <span class="cc-meta">
+            <span class="cc-platform">Email</span>
+            <span class="cc-value">hello@makespacesconcept.com</span>
+          </span>
+          <span class="cc-cta">
+            Send a note
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+        <a href="tel:+60177750719" class="contact-channel" data-logo="Ke">
+          <img src="ke.png" alt="" class="cc-logo-reveal" />
+          <span class="cc-meta">
+            <span class="cc-platform">Call</span>
+            <span class="cc-value">+6017 775 0719</span>
+          </span>
+          <span class="cc-cta">
+            Ring us
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+        <a href="tel:+60128766587" class="contact-channel" data-logo="Ma">
+          <img src="ma.png.png" alt="" class="cc-logo-reveal" />
+          <span class="cc-meta">
+            <span class="cc-platform">Call</span>
+            <span class="cc-value">+6012 876 6587</span>
+          </span>
+          <span class="cc-cta">
+            Ring us
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 768px) {
+    .contact-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer style="padding:2rem 3rem;background:#0D0D0D;border-top:1px solid rgba(245,242,238,0.08)">
+  <div style="max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem">
+    <img src="makelogo.png" alt="MaKe" style="height:28px;width:auto;filter:invert(1) opacity(0.7)" />
+    <p style="font-size:0.7rem;color:rgba(245,242,238,0.3);letter-spacing:0.04em">
+      &copy; 2024 MaKe Spaces. Retail Consultancy &amp; Placemaking Agency. Kuala Lumpur, Malaysia.
+    </p>
+    <div style="display:flex;gap:1.5rem">
+      <a href="#services" style="font-size:0.7rem;color:rgba(245,242,238,0.3);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s" onmouseover="this.style.color='#F5F2EE'" onmouseout="this.style.color='rgba(245,242,238,0.3)'">Services</a>
+      <a href="#projects" style="font-size:0.7rem;color:rgba(245,242,238,0.3);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s" onmouseover="this.style.color='#F5F2EE'" onmouseout="this.style.color='rgba(245,242,238,0.3)'">Projects</a>
+      <a href="#contact"  style="font-size:0.7rem;color:rgba(245,242,238,0.3);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s" onmouseover="this.style.color='#F5F2EE'" onmouseout="this.style.color='rgba(245,242,238,0.3)'">Contact</a>
+    </div>
+  </div>
+</footer>
+<style>
+  @media (max-width: 768px) {
+    footer > div { flex-direction: column; text-align: center; }
+    footer > div > div:last-child { justify-content: center; }
+  }
+</style>
+
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script>
+  // ── SCROLL-DRIVEN LOGO MORPH ──
+  const logoIntro   = document.getElementById('logo-intro');
+  const introWrap   = document.getElementById('intro-logo-wrap');
+  const fadeOverlay = document.getElementById('intro-fade-overlay');
+  const navLogo     = document.getElementById('nav-logo');
+  const navLogoImg  = navLogo ? navLogo.querySelector('img') : null;
+  const navbar      = document.getElementById('navbar');
+
+  function easeInOut(t) {
+    return t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+  }
+
+  function onScroll() {
+    const scrollY = window.scrollY;
+    const introH  = logoIntro.offsetHeight;
+
+    if (scrollY <= introH) {
+      const raw = Math.min(scrollY / introH, 1);
+      const p   = easeInOut(raw);
+
+      // Fade canvas overlay in from p=0.55
+      const fadeP = Math.max(0, Math.min((p - 0.55) / 0.33, 1));
+      fadeOverlay.style.opacity = fadeP;
+
+      // Logo fades out from p=0.65
+      const logoAlpha = p > 0.65 ? 1 - (p - 0.65) / 0.35 : 1;
+      introWrap.style.opacity = logoAlpha;
+
+      // Nav logo fades in from p=0.78
+      const navAlpha = Math.max(0, Math.min((p - 0.78) / 0.22, 1));
+      navLogo.style.opacity = navAlpha;
+      if (p > 0.5) navbar.classList.add('scrolled');
+      else if (scrollY < 60) navbar.classList.remove('scrolled');
+
+    } else {
+      navbar.classList.add('scrolled');
+      navLogo.style.opacity = '1';
+      navLogo.classList.add('visible');
+      introWrap.style.opacity = '0';
+      fadeOverlay.style.opacity = '1';
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ── SCROLL ANIMATIONS ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up, .reveal-line').forEach(el => observer.observe(el));
+
+  // Trigger hero animations after intro
+  function triggerHero() {
+    document.querySelectorAll('.reveal-line').forEach(el => el.classList.add('in-view'));
+    document.querySelectorAll('#hero .fade-up').forEach(el => el.classList.add('in-view'));
+  }
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.5) triggerHero();
+  }, { passive: true, once: true });
+
+  // ── MOBILE MENU ──
+  function openMobileMenu()  { document.getElementById('mobile-menu').classList.add('open'); }
+  function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+
+  // ── FORM ──
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    btn.textContent = "Sent! We'll be in touch.";
+    btn.disabled = true;
+  }
+
+
+  // ── SHADER ANIMATION (raw WebGL, no dependencies) ──
+  (function() {
+    const container = document.getElementById('shader-canvas-wrap');
+    if (!container) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;';
+    container.appendChild(canvas);
+
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) return;
+
+    const vert = `attribute vec2 a_pos; void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }`;
+    const frag = `
+      precision highp float;
+      uniform vec2 u_res;
+      uniform float u_time;
+      void main() {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - u_res) / min(u_res.x, u_res.y);
+        float t = u_time * 0.05;
+        float lw = 0.002;
+        vec3 col = vec3(0.0);
+        for (int j = 0; j < 3; j++) {
+          for (int i = 0; i < 5; i++) {
+            col[j] += lw * float(i*i) / abs(fract(t - 0.01*float(j) + float(i)*0.01)*5.0 - length(uv) + mod(uv.x + uv.y, 0.2));
+          }
+        }
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    function compile(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s); return s;
+    }
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
+    gl.linkProgram(prog); gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes  = gl.getUniformLocation(prog, 'u_res');
+    const uTime = gl.getUniformLocation(prog, 'u_time');
+
+    function resize() {
+      const w = container.clientWidth * devicePixelRatio | 0;
+      const h = container.clientHeight * devicePixelRatio | 0;
+      canvas.width = w; canvas.height = h;
+      gl.viewport(0, 0, w, h);
+      gl.uniform2f(uRes, w, h);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    let t = 1, rafId;
+    function draw() {
+      rafId = requestAnimationFrame(draw);
+      t += 0.05;
+      gl.uniform1f(uTime, t);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    draw();
+
+    const introEl = document.getElementById('logo-intro');
+    new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) cancelAnimationFrame(rafId);
+      else draw();
+    }, { threshold: 0 }).observe(introEl);
+  })();
+
+  // ── LOGO CAROUSELS ──
+  (function() {
+    const retailBrands = [
+      { name: 'Niko Neko',               logo: 'logos/image12.png'   },
+      { name: 'Lachér Patisserie',        logo: 'logos/image13.jpeg'  },
+      { name: 'GIOIA',                    logo: 'logos/image14.jpeg'  },
+      { name: 'Bean Brothers',            logo: 'logos/image15.png'   },
+      { name: 'hétam',                    logo: 'logos/image11.png'   },
+      { name: 'OR Gelato',               logo: 'logos/image16.png'   },
+      { name: 'Grumpy Bagels',           logo: 'logos/image17.jpeg'  },
+      { name: 'Ólea',                     logo: 'logos/image10.png'   },
+      { name: 'All About Chew',          logo: 'logos/image9.png'    },
+      { name: "Tony's NY Pizza",         logo: 'logos/image7.png'    },
+      { name: 'Dào',                      logo: 'logos/image1.jpeg'   },
+      { name: 'Cheevit Cheeva',          logo: 'logos/image5.png'    },
+      { name: 'TAAN Korean Steakhouse',  logo: 'logos/image4.png'    },
+      { name: "Mokky's Pizza",           logo: 'logos/image3.jpeg'   },
+      { name: 'Michin Grill',            logo: 'logos/image31.png'   },
+      { name: 'Nui52 Grill',             logo: 'logos/image32.png'   },
+      { name: 'Seed by Whitegrass',      logo: 'logos/image33.jpeg'  },
+      { name: 'ZUS Coffee',              logo: 'logos/image30.png'   },
+      { name: 'Skillet',                 logo: 'logos/image34.png'   },
+      { name: 'Luckin Coffee',           logo: 'logos/image29.png'   },
+      { name: 'Kumo Omakase',            logo: 'logos/image35.png'   },
+      { name: 'THE IVORY',               logo: 'logos/image28.png'   },
+      { name: 'ZO CRAFT',                logo: 'logos/image27.png'   },
+      { name: 'MEN SPIRE',               logo: 'logos/image26.jpeg'  },
+      { name: 'EYE MUSE',                logo: 'logos/image25.png'   },
+      { name: 'OMAR ALI',                logo: 'logos/image23.jpeg'  },
+      { name: 'ZORA',                    logo: 'logos/image22.jpeg'  },
+      { name: 'saoi',                    logo: 'logos/image21.png'   },
+      { name: 'glo HOUSE',               logo: 'logos/image20.jpeg'  },
+      { name: 'FREIA Aesthetics',        logo: 'logos/image19.jpeg'  },
+      { name: 'ANYTIME FITNESS',         logo: 'logos/image36.png'   },
+    ];
+
+    const devBrands = [
+      { name: 'YTL',                      logo: 'logos/image48.jpeg'  },
+      { name: 'GuocoLand',               logo: 'logos/image43.png'   },
+      { name: 'IOI Properties',          logo: 'logos/image37.png'   },
+      { name: 'Hap Seng Land',           logo: 'logos/image49.png'   },
+      { name: 'UOA Group',               logo: 'logos/image42.jpeg'  },
+      { name: 'Paramount',               logo: 'logos/image39.png'   },
+      { name: 'Quill Citymall',          logo: 'logos/image38.png'   },
+      { name: 'Bandar Utama City Group', logo: 'logos/image44.png'   },
+      { name: 'EXSIM',                   logo: 'logos/image41.png'   },
+      { name: 'Triterra',                logo: 'logos/image40.png'   },
+      { name: 'LGB Group',               logo: 'logos/image47.png'   },
+    ];
+
+    function buildCarousel(containerId, brands, speed) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const track = document.createElement('div');
+      track.className = 'logo-carousel-track';
+      track.style.animationDuration = speed + 's';
+      [brands, brands].forEach(set => {
+        set.forEach(({ name, logo }) => {
+          const card = document.createElement('div');
+          card.className = 'logo-card';
+          card.innerHTML = `
+            <div class="logo-card-icon"><img src="${logo}" alt="${name}" /></div>
+            <div class="logo-card-name">${name}</div>
+          `;
+          track.appendChild(card);
+        });
+      });
+      container.appendChild(track);
+    }
+
+    buildCarousel('brand-grid', retailBrands, 60);
+    buildCarousel('dev-grid', devBrands, 40);
+  })();
+
+  // ── SECTOR CYCLING ──
+  (function() {
+    const words = document.querySelectorAll('#sector-cycle .sector-word');
+    const pills = document.querySelectorAll('#sector-pills .sector-pill');
+    if (!words.length) return;
+
+    const sectorToPill = {
+      'F&B': 'F&B', 'Wellness': 'Wellness', 'Fitness': 'Fitness',
+      'Lifestyle': 'Lifestyle', 'Beauty': 'Beauty', 'Fashion': 'Fashion',
+      'Home & Living': 'Home', 'Electronics': 'Consumer Electronics',
+      'Entertainment': 'Entertainment', 'Services': 'Services'
+    };
+
+    let current = 0;
+
+    function activatePill(sectorName) {
+      const targetPill = sectorToPill[sectorName] || sectorName;
+      pills.forEach(p => p.classList.toggle('active', p.dataset.pill === targetPill));
+    }
+
+    function cycle() {
+      const prev = current;
+      current = (current + 1) % words.length;
+
+      // Exit previous
+      words[prev].classList.remove('enter');
+      words[prev].classList.add('exit');
+
+      // Small delay so exit starts before enter
+      setTimeout(() => {
+        words[current].classList.remove('exit');
+        words[current].classList.add('enter');
+        activatePill(words[current].dataset.sector);
+      }, 80);
+
+      // Clean up exit class after animation
+      setTimeout(() => words[prev].classList.remove('exit'), 700);
+    }
+
+    // Set initial word
+    words[0].classList.add('enter');
+    activatePill(words[0].dataset.sector);
+
+    setInterval(cycle, 2200);
+  })();
+</script>
+
+</body>
+</html>
