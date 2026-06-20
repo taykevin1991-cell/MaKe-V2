@@ -124,14 +124,18 @@
     #navbar {
       position: fixed;
       top: 0; left: 0; right: 0;
+      opacity: 0;
+      transform: translateY(-100%);
+      transition: opacity 0.4s ease, transform 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
       z-index: 100;
       padding: 1.25rem 3rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      transition: background 0.4s ease, box-shadow 0.4s ease;
     }
     #navbar.scrolled {
+      opacity: 1;
+      transform: translateY(0);
       background: rgba(245,242,238,0.96);
       backdrop-filter: blur(12px);
       box-shadow: 0 1px 0 rgba(13,13,13,0.08);
@@ -302,7 +306,18 @@
 
     /* ── PROJECT CARDS ── */
     .project-card { overflow: hidden; cursor: pointer; position: relative; text-decoration: none; color: inherit; display: block; width: 100%; }
-    .project-card .card-photo { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1; }
+    .project-card .card-photo {
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:1;
+      transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease;
+    }
+    .project-card:hover .card-photo {
+      transform: scale(1.08);
+      filter: brightness(1.05);
+    }
+    .project-card:active .card-photo {
+      transform: scale(1.04);
+      filter: brightness(0.95);
+    }
     .ig-hover-badge {
       position: absolute;
       top: 1rem; right: 1rem;
@@ -325,6 +340,12 @@
     .project-card:hover .ig-hover-badge {
       opacity: 1;
       transform: translateY(0);
+    }
+    .project-card > div[style*="bottom"] {
+      transition: transform 0.35s ease;
+    }
+    .project-card:hover > div[style*="bottom"] {
+      transform: translateY(-4px);
     }
     .project-card .overlay {
       position: absolute; inset: 0;
@@ -457,7 +478,7 @@
 
     .logo-card {
       flex-shrink: 0;
-      width: 150px;
+      width: 240px;
       border: 1px solid rgba(13,13,13,0.08);
       display: flex;
       flex-direction: column;
@@ -475,8 +496,8 @@
       z-index: 10;
     }
     .logo-card-icon {
-      width: 110px;
-      height: 72px;
+      width: 180px;
+      height: 120px;
       background: rgba(245,242,238,0.96);
       display: flex;
       align-items: center;
@@ -639,10 +660,10 @@
 
     /* ── SECTION PADDING ── */
     .section-pad { padding: 6rem 3rem; }
-    @media (max-width: 768px) { .section-pad { padding: 4rem 1.25rem; } }
+    @media (max-width: 768px) { .section-pad { padding: 2.5rem 1.25rem; } }
 
     .section-pad-sm { padding: 4rem 3rem; }
-    @media (max-width: 768px) { .section-pad-sm { padding: 3rem 1.25rem; } }
+    @media (max-width: 768px) { .section-pad-sm { padding: 2rem 1.25rem; } }
 
     /* ══════════════════════════════════════
        MOBILE RESPONSIVE — comprehensive
@@ -656,7 +677,7 @@
       #navbar .btn-primary { display: none; }
 
       /* Hero */
-      #hero { padding: 7rem 1.25rem 3.5rem; }
+      #hero { padding: 5rem 1.25rem 2.5rem; min-height: auto; }
 
       /* Services marquee — smaller text */
       .marquee-item { font-size: 0.7rem; padding: 0 1.25rem; gap: 0.75rem; }
@@ -681,6 +702,29 @@
 
       /* About stats — wrap tightly */
       [style*="display:flex;gap:2.5rem;flex-wrap:wrap"] { gap: 1.5rem !important; }
+
+      /* What We Do — horizontal swipe */
+      .wwd-scroll-wrap, .wwd-sticky { display: contents; }
+      .wwd-grid {
+        display: flex !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        border: none !important;
+        gap: 1rem;
+        scrollbar-width: none;
+        padding: 0.5rem 0;
+      }
+      .wwd-grid::-webkit-scrollbar { display: none; }
+      .wwd-grid > div {
+        flex: 0 0 85vw;
+        scroll-snap-align: start;
+        border-radius: 12px;
+        border-right: none !important;
+      }
+      .wwd-tenants {
+        border-right: none !important;
+      }
 
       /* Projects — fun varied mobile grid */
 
@@ -708,8 +752,8 @@
       .project-card h3 { font-size: 0.95rem !important; }
 
       /* Logo cards — slightly smaller */
-      .logo-card { width: 120px !important; }
-      .logo-card-icon { width: 90px !important; height: 58px !important; }
+      .logo-card { width: 160px !important; }
+      .logo-card-icon { width: 120px !important; height: 80px !important; }
 
       /* Contact channels — hide logo reveal (no hover on mobile) */
       .cc-logo-reveal { display: none; }
@@ -914,16 +958,18 @@
      SERVICES
 ══════════════════════════════════════ -->
 <section id="services" class="section-pad">
-  <div style="max-width:1280px;margin:0 auto">
-    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:3.5rem">
+  <div class="wwd-scroll-wrap">
+  <div class="wwd-sticky">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.25rem">
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
       <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">What We Do</span>
       <div style="height:1px;width:48px;background:rgba(13,13,13,0.15)"></div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(13,13,13,0.1)">
+    <div class="wwd-grid" style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(13,13,13,0.1)">
 
       <!-- Tenants -->
-      <div class="fade-up" style="padding:clamp(2rem,5vw,4rem);border-right:1px solid rgba(13,13,13,0.1)">
+      <div class="fade-up wwd-tenants" style="padding:clamp(2rem,5vw,4rem);border-right:1px solid rgba(13,13,13,0.1);background:#FAF7F2">
         <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Tenants</div>
         <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,3rem);font-weight:900;line-height:1.15;margin-bottom:1.5rem">
           Find your<br /><em style="font-weight:400;font-style:italic">perfect space.</em>
@@ -984,6 +1030,8 @@
 
     </div>
   </div>
+  </div><!-- /wwd-sticky -->
+  </div><!-- /wwd-scroll-wrap -->
 </section>
 
 <style>
@@ -1002,9 +1050,11 @@
 <!-- ══════════════════════════════════════
      HOW WE WORK
 ══════════════════════════════════════ -->
-<section style="padding:5rem 3rem;background:#0D0D0D;color:#F5F2EE">
-  <div style="max-width:1280px;margin:0 auto">
-    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:4rem">
+<section class="hww-section" style="padding:5rem 3rem;background:#0D0D0D;color:#F5F2EE">
+  <div class="hww-scroll-wrap">
+  <div class="hww-sticky">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.25rem">
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
       <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">How We Work</span>
       <div style="height:1px;width:48px;background:rgba(245,242,238,0.1)"></div>
     </div>
@@ -1012,7 +1062,7 @@
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0" class="how-grid">
       <div class="fade-up" style="position:relative;padding-right:3rem">
         <div class="step-line"></div>
-        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(245,242,238,0.08);line-height:1;margin-bottom:1.5rem">01</div>
+        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(196,180,154,0.3);line-height:1;margin-bottom:1.5rem">01</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem">Consult</h3>
         <p style="color:rgba(245,242,238,0.5);font-size:0.875rem;line-height:1.75">
           We start with a deep understanding of your concept, goals, and constraints. For tenants, that means your brand story. For developers, it means your asset's vision and catchment.
@@ -1021,7 +1071,7 @@
 
       <div class="fade-up delay-200" style="position:relative;padding:0 3rem">
         <div class="step-line"></div>
-        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(245,242,238,0.08);line-height:1;margin-bottom:1.5rem">02</div>
+        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(196,180,154,0.3);line-height:1;margin-bottom:1.5rem">02</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem">Curate</h3>
         <p style="color:rgba(245,242,238,0.5);font-size:0.875rem;line-height:1.75">
           We match, shortlist, and negotiate. Every placement is intentional. Right brand, right location, right neighbours. We draw on a deep network built across Klang Valley's retail landscape.
@@ -1029,7 +1079,7 @@
       </div>
 
       <div class="fade-up delay-400" style="position:relative;padding-left:3rem">
-        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(245,242,238,0.08);line-height:1;margin-bottom:1.5rem">03</div>
+        <div style="font-family:'Playfair Display',serif;font-size:4rem;font-weight:900;color:rgba(196,180,154,0.3);line-height:1;margin-bottom:1.5rem">03</div>
         <h3 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem">Launch</h3>
         <p style="color:rgba(245,242,238,0.5);font-size:0.875rem;line-height:1.75">
           We see it through to opening. From lease signing to fit-out milestones, we stay in your corner until your doors open and your space comes alive.
@@ -1037,15 +1087,32 @@
       </div>
     </div>
   </div>
+  </div><!-- /hww-sticky -->
+  </div><!-- /hww-scroll-wrap -->
 </section>
 
 <style>
   @media (max-width: 768px) {
-    .how-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
-    .how-grid > div { padding: 0 !important; }
-  }
-  @media (max-width: 768px) {
-    section[style*="padding:5rem 3rem"] { padding: 4rem 1.25rem !important; }
+    .hww-section { padding: 3rem 1.25rem !important; }
+    .hww-scroll-wrap, .hww-sticky { display: contents; }
+    .how-grid {
+      display: flex !important;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 1rem !important;
+      scrollbar-width: none;
+      padding: 0.5rem 0;
+    }
+    .how-grid::-webkit-scrollbar { display: none; }
+    .how-grid > div {
+      flex: 0 0 80vw;
+      scroll-snap-align: start;
+      padding: 1.5rem !important;
+      background: rgba(245,242,238,0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(245,242,238,0.08);
+    }
   }
 </style>
 
@@ -1718,6 +1785,7 @@
 
     setInterval(cycle, 2200);
   })();
+
 </script>
 
 </body>
