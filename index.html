@@ -42,6 +42,7 @@
   </script>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -387,6 +388,7 @@
       white-space: nowrap;
     }
     .btn-outline:hover { background: #0D0D0D; color: #F5F2EE; }
+    .btn-outline[style*="color:#F5F2EE"]:hover { background: #C4B49A; color: #0D0D0D; border-color: #C4B49A; }
 
     /* ── MISC ── */
     .divider { height: 1px; background: #0D0D0D; opacity: 0.12; }
@@ -664,6 +666,13 @@
 
     .section-pad-sm { padding: 4rem 3rem; }
     @media (max-width: 768px) { .section-pad-sm { padding: 2rem 1.25rem; } }
+
+    /* Desktop — hide mobile-only elements */
+    .swipe-indicator { display: none; }
+    .wwd-scroll-wrap, .wwd-sticky,
+    .hww-scroll-wrap, .hww-sticky {
+      display: block;
+    }
 
     /* ══════════════════════════════════════
        MOBILE RESPONSIVE — comprehensive
@@ -1010,66 +1019,66 @@
       <div style="height:1px;width:48px;background:rgba(13,13,13,0.15)"></div>
     </div>
 
-    <div class="wwd-grid" style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(13,13,13,0.1)">
+    <div class="wwd-grid" style="display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(13,13,13,0.1);border-radius:16px;overflow:hidden">
 
       <!-- Tenants -->
-      <div class="fade-up wwd-tenants" style="padding:clamp(2rem,5vw,4rem);border-right:1px solid rgba(13,13,13,0.1);background:#FAF7F2">
-        <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Tenants</div>
+      <div class="fade-up wwd-tenants" style="padding:clamp(2rem,5vw,4rem);border-right:1px solid rgba(13,13,13,0.1);background:#F0EDE7">
+        <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Brands &amp; Founders</div>
         <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,3rem);font-weight:900;line-height:1.15;margin-bottom:1.5rem">
-          Find your<br /><em style="font-weight:400;font-style:italic">perfect space.</em>
+          We find the space.<br /><em style="font-weight:400;font-style:italic">You build the brand.</em>
         </h2>
-        <p style="color:#7A7468;line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;max-width:340px">
-          Opening an F&amp;B outlet, wellness studio, fitness concept, or lifestyle brand? We match your concept to the right shoplot or retail destination in Klang Valley and soon, Johor and Singapore.
+        <p style="color:#7A7468;line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;max-width:380px">
+          You have the concept. We find the location. We scout retail spaces across Klang Valley, shortlist sites that match your footfall, demographics, and budget, and negotiate the lease so you can focus on opening day.
         </p>
         <ul style="list-style:none;padding:0;margin:0 0 2.5rem;display:flex;flex-direction:column;gap:0.875rem">
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Space scouting &amp; site matching
+            Location scouting and site matching
           </li>
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Lease negotiation advisory
+            Lease negotiation and deal structuring
           </li>
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Market &amp; demographic analysis
+            Market and demographic analysis
           </li>
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:#7A7468">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Retail strategy &amp; brand positioning
+            Retail positioning and placement strategy
           </li>
         </ul>
-        <a href="#contact" class="btn-primary">I'm Looking for a Space</a>
+        <a href="#contact" class="btn-primary">Find Me a Space</a>
       </div>
 
       <!-- Developers -->
       <div class="fade-up delay-200" style="padding:clamp(2rem,5vw,4rem);background:#0D0D0D;color:#F5F2EE">
-        <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Developers</div>
+        <div style="font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#C4B49A;margin-bottom:2rem">For Developers &amp; Landlords</div>
         <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3.5vw,3rem);font-weight:900;line-height:1.15;margin-bottom:1.5rem">
-          Activate your<br /><em style="font-weight:400;font-style:italic">retail asset.</em>
+          We fill the lots.<br /><em style="font-weight:400;font-style:italic">You own the destination.</em>
         </h2>
-        <p style="color:rgba(245,242,238,0.6);line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;max-width:340px">
-          Got a retail space, or shopfront podium that needs the right brands? We curate tenant mixes, design retail programming, and turn empty units into destinations people return to.
+        <p style="color:rgba(245,242,238,0.6);line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;max-width:380px">
+          Empty retail floors don't generate returns. We bring the right tenants to your asset, curating a mix of F&amp;B, wellness, and lifestyle brands that turn vacant lots into places people actually come back to.
         </p>
         <ul style="list-style:none;padding:0;margin:0 0 2.5rem;display:flex;flex-direction:column;gap:0.875rem">
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Tenant mix curation &amp; strategy
+            Tenant sourcing and mix curation
           </li>
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Retail programming &amp; placemaking
+            Retail programming and placemaking
           </li>
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Pop-up &amp; activation concepts
+            Activation and anchor tenant strategy
           </li>
           <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.875rem;color:rgba(245,242,238,0.6)">
             <span style="width:4px;height:4px;border-radius:50%;background:#C4B49A;margin-top:0.45rem;flex-shrink:0"></span>
-            Brand curation &amp; leasing strategy
+            Leasing strategy and brand matching
           </li>
         </ul>
-        <a href="#contact" class="btn-outline" style="border-color:rgba(245,242,238,0.3);color:#F5F2EE">I'm a Developer</a>
+        <a href="#contact" class="btn-outline" style="border-color:rgba(245,242,238,0.3);color:#F5F2EE">Fill My Retail Space</a>
       </div>
 
     </div>
@@ -1402,15 +1411,15 @@
         </p>
         <div style="display:flex;gap:2.5rem;flex-wrap:wrap">
           <div>
-            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">30+</div>
+            <div class="scramble-num" data-target="30" data-suffix="+" style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">0+</div>
             <div style="font-size:0.7rem;color:#7A7468;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.25rem">Brands Placed</div>
           </div>
           <div>
-            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">14</div>
+            <div class="scramble-num" data-target="14" data-suffix="" style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">0</div>
             <div style="font-size:0.7rem;color:#7A7468;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.25rem">Developer Partners</div>
           </div>
           <div>
-            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">3</div>
+            <div class="scramble-num" data-target="3" data-suffix="" style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;line-height:1">0</div>
             <div style="font-size:0.7rem;color:#7A7468;letter-spacing:0.1em;text-transform:uppercase;margin-top:0.25rem">Markets</div>
           </div>
         </div>
@@ -1436,8 +1445,9 @@
 <!-- ══════════════════════════════════════
      CONTACT
 ══════════════════════════════════════ -->
-<section id="contact" class="section-pad" style="background:#0D0D0D;color:#F5F2EE">
-  <div style="max-width:1280px;margin:0 auto">
+<section id="contact" class="section-pad" style="background:#0D0D0D;color:#F5F2EE;position:relative;overflow:hidden">
+  <canvas id="contact-shader" style="position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:0.4"></canvas>
+  <div style="max-width:1280px;margin:0 auto;position:relative;z-index:1">
 
     <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
       <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">Get in Touch</span>
@@ -1630,6 +1640,22 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.fade-up, .reveal-line').forEach(el => observer.observe(el));
+
+  // ── REPLAY ANIMATIONS for Brands in Their Space ──
+  const projSection = document.getElementById('projects');
+  if (projSection) {
+    const projObserver = new IntersectionObserver(([entry]) => {
+      const cards = projSection.querySelectorAll('.fade-up, .project-card');
+      if (entry.isIntersecting) {
+        cards.forEach((el, i) => {
+          setTimeout(() => el.classList.add('in-view'), i * 80);
+        });
+      } else {
+        cards.forEach(el => el.classList.remove('in-view'));
+      }
+    }, { threshold: 0.05 });
+    projObserver.observe(projSection);
+  }
 
   // Trigger hero animations after intro
   function triggerHero() {
@@ -1847,6 +1873,128 @@
     activatePill(words[0].dataset.sector);
 
     setInterval(cycle, 2200);
+  })();
+
+  // ── SCRAMBLE NUMBER ANIMATION ──
+  (() => {
+    const els = document.querySelectorAll('.scramble-num');
+    if (!els.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const el = entry.target;
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || '';
+
+        if (!entry.isIntersecting) {
+          el.textContent = '0' + suffix;
+          el.dataset.done = '';
+          return;
+        }
+
+        if (el.dataset.done) return;
+        el.dataset.done = '1';
+
+        const duration = 1200;
+        const scrambleTime = 600;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+
+          if (elapsed < scrambleTime) {
+            const random = Math.floor(Math.random() * target * 3);
+            el.textContent = random + suffix;
+            requestAnimationFrame(update);
+          } else if (elapsed < duration) {
+            const progress = (elapsed - scrambleTime) / (duration - scrambleTime);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(eased * target);
+            el.textContent = current + suffix;
+            requestAnimationFrame(update);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+
+        requestAnimationFrame(update);
+      });
+    }, { threshold: 0.5 });
+
+    els.forEach(el => observer.observe(el));
+  })();
+
+  // ── CONTACT SECTION WEBGL SHADER ──
+  (() => {
+    const canvas = document.getElementById('contact-shader');
+    if (!canvas || typeof THREE === 'undefined') return;
+
+    const vertexShader = `
+      attribute vec3 position;
+      void main() { gl_Position = vec4(position, 1.0); }
+    `;
+
+    const fragmentShader = `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+      void main() {
+        vec2 p = (gl_FragCoord.xy * 2.0 - resolution) / min(resolution.x, resolution.y);
+        float d = length(p) * 0.05;
+        float rx = p.x * (1.0 + d);
+        float gx = p.x;
+        float bx = p.x * (1.0 - d);
+        float r = 0.05 / abs(p.y + sin((rx + time) * 1.0) * 0.5);
+        float g = 0.05 / abs(p.y + sin((gx + time) * 1.0) * 0.5);
+        float b = 0.05 / abs(p.y + sin((bx + time) * 1.0) * 0.5);
+        gl_FragColor = vec4(r, g, b, 1.0);
+      }
+    `;
+
+    const renderer = new THREE.WebGLRenderer({ canvas });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, -1);
+
+    const uniforms = {
+      resolution: { value: [canvas.offsetWidth, canvas.offsetHeight] },
+      time: { value: 0.0 }
+    };
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array([
+      -1,-1,0, 1,-1,0, -1,1,0, 1,-1,0, -1,1,0, 1,1,0
+    ]), 3));
+
+    const mat = new THREE.RawShaderMaterial({
+      vertexShader, fragmentShader, uniforms, side: THREE.DoubleSide
+    });
+
+    scene.add(new THREE.Mesh(geo, mat));
+
+    function resize() {
+      const w = canvas.offsetWidth, h = canvas.offsetHeight;
+      renderer.setSize(w, h, false);
+      uniforms.resolution.value = [w, h];
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let rafId;
+    function draw() {
+      uniforms.time.value += 0.01;
+      renderer.render(scene, camera);
+      rafId = requestAnimationFrame(draw);
+    }
+
+    const section = document.getElementById('contact');
+    const shaderObs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { resize(); draw(); }
+      else { cancelAnimationFrame(rafId); }
+    }, { threshold: 0.05 });
+    shaderObs.observe(section);
   })();
 
   // ── SWIPE INDICATORS (mobile) ──
