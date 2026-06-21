@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MaKe Spaces — Retail Consultancy & Placemaking Agency | Kuala Lumpur, Malaysia</title>
-  <meta name="description" content="MaKe is a boutique retail consultancy and placemaking agency in Kuala Lumpur. We help F&B, wellness, fitness, and lifestyle brands find the right retail space — and help developers curate tenant mixes that turn properties into destinations. Operating across Klang Valley, Sentul Depot, The MET, The Five, and Plaza Conlay." />
+  <title>MaKe Spaces — Retail Location Agency & Commercial Leasing | Kuala Lumpur, Malaysia</title>
+  <meta name="description" content="MaKe is a retail location agency in Kuala Lumpur. We help F&B, wellness, fitness, and lifestyle brands find and secure the right retail space. We also help developers fill retail lots with the right tenants. Location scouting, lease negotiation, and tenant representation across Klang Valley." />
   <meta name="keywords" content="retail space for rent KL, retail space for rent PJ, retail space for rent, shoplot for rent KL, shoplot for rent PJ, shoplot for rent, shoplot for rent Kuala Lumpur, shoplot for rent Petaling Jaya, retail space Klang Valley, retail space for rent Klang Valley, retail space for rent Malaysia, shoplot for rent Klang Valley, shoplot for rent Malaysia, placemaking agency Malaysia, tenant mix curation, retail consultancy KL, retail consultancy PJ, F&B space rental Malaysia, F&B space for rent KL, F&B space for rent PJ, retail leasing agent KL, retail leasing agent PJ, mall tenant placement, shoplot rental Sentul, retail space The MET, commercial space Klang Valley, commercial space for rent PJ, commercial space for rent KL, wellness studio space KL, wellness studio space PJ, restaurant space for rent KL, restaurant space for rent PJ, restaurant space for rent, retail programming, place to rent for business KL, place to rent for business PJ, developer retail consultant Malaysia, activate retail space, retail destination strategy, kedai untuk disewa KL, ruang niaga untuk disewa, kedai untuk disewa PJ" />
 
   <!-- Open Graph (social sharing) -->
-  <meta property="og:title" content="MaKe Spaces — Retail Consultancy & Placemaking Agency" />
-  <meta property="og:description" content="We place the right brands in the right spaces. Boutique retail consultancy helping F&B, wellness, and lifestyle brands find spaces in Kuala Lumpur and Klang Valley." />
+  <meta property="og:title" content="MaKe Spaces — Retail Location Agency & Commercial Leasing" />
+  <meta property="og:description" content="We find and secure retail spaces for brands, and fill developer lots with the right tenants. Location scouting, lease negotiation, and tenant representation in Kuala Lumpur and Klang Valley." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://makespacesconcept.com" />
   <meta property="og:image" content="https://makespacesconcept.com/makelogo.png" />
@@ -22,9 +22,9 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
+    "@type": ["ProfessionalService", "RealEstateAgent"],
     "name": "MaKe Spaces",
-    "description": "Boutique retail consultancy and placemaking agency based in Kuala Lumpur, Malaysia. We help brands find retail spaces and help developers curate tenant mixes.",
+    "description": "Retail location agency and commercial leasing consultancy in Kuala Lumpur. We scout and secure retail spaces for brands, and help developers fill lots with the right tenants through lease negotiation and tenant representation.",
     "url": "https://makespacesconcept.com",
     "logo": "https://makespacesconcept.com/makelogo.png",
     "telephone": ["+60177750719", "+60128766587"],
@@ -36,7 +36,7 @@
       "addressCountry": "MY"
     },
     "areaServed": ["Kuala Lumpur", "Klang Valley", "Johor", "Singapore"],
-    "serviceType": ["Retail Consultancy", "Placemaking", "Tenant Mix Curation", "Retail Leasing", "Space Programming"],
+    "serviceType": ["Location Scouting", "Retail Leasing", "Lease Negotiation", "Tenant Representation", "Deal Structuring", "Site Matching", "Market Analysis", "Tenant Mix Strategy"],
     "sameAs": ["https://www.instagram.com/makespacesmy"]
   }
   </script>
@@ -707,7 +707,7 @@
 
       /* About section — stack to single column */
       .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
-      .about-grid .about-photo { display: none; }
+      /* about photo shown on mobile via section-specific styles below */
 
       /* About stats — wrap tightly */
       [style*="display:flex;gap:2.5rem;flex-wrap:wrap"] { gap: 1.5rem !important; }
@@ -804,6 +804,26 @@
       /* Project card label text size */
       .project-card h3 { font-size: 0.95rem !important; }
 
+      /* Project cards — Ken Burns photo animation on scroll */
+      .project-card .card-photo {
+        transition: transform 0.5s ease, filter 0.4s ease !important;
+      }
+      .project-card.in-view .card-photo {
+        animation: subtleKen 12s ease-in-out infinite alternate !important;
+      }
+      @keyframes subtleKen {
+        0%   { transform: scale(1) translate(0, 0); }
+        100% { transform: scale(1.08) translate(-2%, -1%); }
+      }
+
+      /* Staggered fade-up for cards */
+      .proj-row .project-card:nth-child(2) { transition-delay: 0.12s; }
+      .proj-row-2 .project-card:nth-child(2) { transition-delay: 0.12s; }
+      .proj-row-2 .project-card:nth-child(3) { transition-delay: 0.24s; }
+      .proj-row-4 .project-card:nth-child(2) { transition-delay: 0.1s; }
+      .proj-row-4 .project-card:nth-child(3) { transition-delay: 0.2s; }
+      .proj-row-4 .project-card:nth-child(4) { transition-delay: 0.3s; }
+
       /* Logo cards — slightly smaller */
       .logo-card { width: 160px !important; }
       .logo-card-icon { width: 120px !important; height: 80px !important; }
@@ -833,7 +853,7 @@
       #mq-cursor-card { display: none !important; }
 
       /* About photo on mobile — hide to avoid layout issues */
-      #about img[style*="object-fit:cover"] { display: none; }
+      /* about photo visible on mobile */
     }
   </style>
 </head>
@@ -907,7 +927,7 @@
 
   <div style="max-width:1280px;margin:0 auto;width:100%">
     <div class="reveal-line" style="margin-bottom:1.5rem">
-      <span class="text-xs tracking-widest uppercase" style="color:#7A7468;font-family:'Inter',sans-serif">Retail Consultancy &amp; Placemaking</span>
+      <span class="text-xs tracking-widest uppercase" style="color:#7A7468;font-family:'Inter',sans-serif">Retail Location Agency &amp; Commercial Leasing</span>
     </div>
 
     <h1 class="hero-headline">
@@ -940,17 +960,17 @@
 <script>
 (function(){
   const services = [
-    { k: 'Adaptive Reuse',        d: 'Revitalizing dormant buildings into active destinations' },
-    { k: 'Placemaking',           d: 'Shaping spaces that foster connection and community' },
+    { k: 'Location Scouting',      d: 'Finding the right retail space for your brand and concept' },
+    { k: 'Lease Negotiation',     d: 'Structuring deals that protect your interests and budget' },
     { k: 'Tenant Mix Strategy',   d: 'Balancing F&B, retail, and services for impact' },
     { k: 'Space Programming',     d: 'Defining proportions, flow, and purpose of use' },
-    { k: 'Curation',              d: 'Selecting concepts and experiences that add authenticity' },
-    { k: 'Activation',            d: 'Sparking energy through events and early engagement' },
-    { k: 'Community Integration', d: 'Embedding local culture into every project' },
-    { k: 'Cultural Mapping',      d: 'Identifying local narratives to shape placemaking' },
+    { k: 'Tenant Representation', d: 'Acting on behalf of brands to secure the best locations' },
+    { k: 'Leasing Strategy',      d: 'Filling vacancies with the right concepts that stick' },
+    { k: 'Retail Leasing',        d: 'Matching tenants to landlords across Klang Valley' },
+    { k: 'Market Analysis',       d: 'Reading demographics, footfall, and competition before committing' },
     { k: 'Brand Alignment',       d: 'Ensuring spaces reflect landlord and tenant identity' },
-    { k: 'Destination Strategy',  d: 'Positioning spaces as a go to urban landmark' },
-    { k: 'Lifestyle Anchoring',   d: 'Introducing tenants and uses that define identity' },
+    { k: 'Site Matching',         d: 'Pairing your concept with locations that make sense' },
+    { k: 'Deal Structuring',      d: 'Negotiating terms, rent, and tenancy conditions' },
   ];
 
   const card  = document.getElementById('mq-cursor-card');
@@ -1401,7 +1421,7 @@
           The agency that<br /><em style="font-weight:400;font-style:italic">curates destinations</em>
         </h2>
         <p style="color:#7A7468;line-height:1.75;margin-bottom:1.25rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
-          MaKe is a boutique retail consultancy and placemaking agency based in Kuala Lumpur, Malaysia. We believe every space has a story, and every brand deserves to tell it in the right location.
+          MaKe is a retail location agency and commercial leasing consultancy based in Kuala Lumpur, Malaysia. We believe every space has a story, and every brand deserves to tell it in the right location.
         </p>
         <p style="color:#7A7468;line-height:1.75;margin-bottom:1.25rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
           We work with brands across F&amp;B, wellness, fitness, and lifestyle to find and secure spaces that truly fit. On the developer side, we help curate retail environments that draw the right tenants and turn properties into destinations.
@@ -1425,7 +1445,7 @@
         </div>
       </div>
 
-      <div class="fade-up delay-200">
+      <div class="fade-up delay-200 about-photo">
         <div style="position:relative;overflow:hidden;height:480px">
           <img src="about-photo.png" alt="MaKe retail spaces — The Row, The Stories of Taman Tunku, The Five, The Me, Sentul" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;" />
         </div>
@@ -1437,7 +1457,60 @@
 
 <style>
   @media (max-width: 768px) {
-    .about-grid { grid-template-columns: 1fr !important; }
+    #about.section-pad { padding: 0 !important; }
+    .about-grid {
+      display: block !important;
+      position: relative;
+    }
+    .about-grid .about-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .about-grid .about-photo > div {
+      height: 100% !important;
+      border-radius: 0;
+    }
+    .about-grid .about-photo img {
+      border-radius: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .about-grid .about-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(13,13,13,0.3) 0%, rgba(13,13,13,0.85) 50%, rgba(13,13,13,0.95) 100%);
+      z-index: 1;
+    }
+    .about-grid > .fade-up:first-child {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 1.5rem 3rem;
+      color: #F5F2EE;
+    }
+    .about-grid > .fade-up:first-child h2 {
+      color: #F5F2EE;
+    }
+    .about-grid > .fade-up:first-child p {
+      text-align: left !important;
+      font-size: 0.875rem !important;
+      color: rgba(245,242,238,0.65) !important;
+    }
+    .about-grid > .fade-up:first-child span[style*="color:#7A7468"] {
+      color: #C4B49A !important;
+    }
+    .about-grid > .fade-up:first-child .scramble-num {
+      color: #F5F2EE;
+    }
+    .about-grid > .fade-up:first-child [style*="color:#7A7468"][style*="font-size:0.7rem"] {
+      color: rgba(245,242,238,0.5) !important;
+    }
+    .about-grid [style*="display:flex;gap:2.5rem"] {
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(245,242,238,0.12);
+    }
   }
 </style>
 
@@ -1567,7 +1640,7 @@
   <div style="max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem">
     <img src="makelogo.png" alt="MaKe" style="height:28px;width:auto;filter:invert(1) opacity(0.7)" />
     <p style="font-size:0.7rem;color:rgba(245,242,238,0.3);letter-spacing:0.04em">
-      &copy; 2024 MaKe Spaces. Retail Consultancy &amp; Placemaking Agency. Kuala Lumpur, Malaysia.
+      &copy; 2024 MaKe Spaces. Retail Location Agency &amp; Commercial Leasing Agency. Kuala Lumpur, Malaysia.
     </p>
     <div style="display:flex;gap:1.5rem">
       <a href="#services" style="font-size:0.7rem;color:rgba(245,242,238,0.3);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s" onmouseover="this.style.color='#F5F2EE'" onmouseout="this.style.color='rgba(245,242,238,0.3)'">Services</a>
@@ -1644,14 +1717,12 @@
   // ── REPLAY ANIMATIONS for Brands in Their Space ──
   const projSection = document.getElementById('projects');
   if (projSection) {
+    const allEls = projSection.querySelectorAll('.fade-up');
     const projObserver = new IntersectionObserver(([entry]) => {
-      const cards = projSection.querySelectorAll('.fade-up, .project-card');
       if (entry.isIntersecting) {
-        cards.forEach((el, i) => {
-          setTimeout(() => el.classList.add('in-view'), i * 80);
-        });
+        allEls.forEach((el, i) => setTimeout(() => el.classList.add('in-view'), i * 100));
       } else {
-        cards.forEach(el => el.classList.remove('in-view'));
+        allEls.forEach(el => el.classList.remove('in-view'));
       }
     }, { threshold: 0.05 });
     projObserver.observe(projSection);
