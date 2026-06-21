@@ -726,6 +726,50 @@
         border-right: none !important;
       }
 
+      /* Swipe indicators */
+      .swipe-indicator {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-top: 1.25rem;
+        padding-bottom: 0.5rem;
+      }
+      .swipe-dots {
+        display: flex;
+        gap: 0.4rem;
+      }
+      .swipe-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(13,13,13,0.15);
+        transition: background 0.3s ease, width 0.3s ease;
+      }
+      .swipe-dot.active {
+        width: 18px;
+        border-radius: 3px;
+        background: #C4B49A;
+      }
+      .swipe-dot-dark {
+        background: rgba(245,242,238,0.15);
+      }
+      .swipe-dot-dark.active {
+        background: #C4B49A;
+      }
+      .swipe-hint {
+        font-size: 0.6rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #7A7468;
+        opacity: 0.6;
+        animation: swipeHintPulse 2s ease-in-out infinite;
+      }
+      @keyframes swipeHintPulse {
+        0%, 100% { opacity: 0.6; transform: translateX(0); }
+        50% { opacity: 1; transform: translateX(4px); }
+      }
+
       /* Projects — fun varied mobile grid */
 
       /* Row 1: Grumpy Bagels tall-left (3fr), Tjufy square-right (2fr) */
@@ -1029,6 +1073,15 @@
       </div>
 
     </div>
+
+    <div class="swipe-indicator" id="wwd-indicator" style="display:none">
+      <div class="swipe-dots">
+        <div class="swipe-dot active" data-i="0"></div>
+        <div class="swipe-dot" data-i="1"></div>
+      </div>
+      <span class="swipe-hint">Swipe →</span>
+    </div>
+
   </div>
   </div><!-- /wwd-sticky -->
   </div><!-- /wwd-scroll-wrap -->
@@ -1086,6 +1139,16 @@
         </p>
       </div>
     </div>
+
+    <div class="swipe-indicator" id="hww-indicator" style="display:none">
+      <div class="swipe-dots">
+        <div class="swipe-dot swipe-dot-dark active" data-i="0"></div>
+        <div class="swipe-dot swipe-dot-dark" data-i="1"></div>
+        <div class="swipe-dot swipe-dot-dark" data-i="2"></div>
+      </div>
+      <span class="swipe-hint" style="color:rgba(245,242,238,0.4)">Swipe →</span>
+    </div>
+
   </div>
   </div><!-- /hww-sticky -->
   </div><!-- /hww-scroll-wrap -->
@@ -1784,6 +1847,34 @@
     activatePill(words[0].dataset.sector);
 
     setInterval(cycle, 2200);
+  })();
+
+  // ── SWIPE INDICATORS (mobile) ──
+  (() => {
+    if (window.innerWidth > 768) return;
+
+    function setupIndicator(gridSelector, indicatorId) {
+      const grid = document.querySelector(gridSelector);
+      const indicator = document.getElementById(indicatorId);
+      if (!grid || !indicator) return;
+
+      indicator.style.display = '';
+      const dots = indicator.querySelectorAll('.swipe-dot');
+      const hint = indicator.querySelector('.swipe-hint');
+      const cards = grid.querySelectorAll(':scope > div');
+      const cardCount = cards.length;
+
+      grid.addEventListener('scroll', () => {
+        const scrollLeft = grid.scrollLeft;
+        const cardWidth = cards[0].offsetWidth + 16;
+        const activeIndex = Math.round(scrollLeft / cardWidth);
+        dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
+        if (hint && scrollLeft > 20) hint.style.display = 'none';
+      }, { passive: true });
+    }
+
+    setupIndicator('.wwd-grid', 'wwd-indicator');
+    setupIndicator('.how-grid', 'hww-indicator');
   })();
 
 </script>
