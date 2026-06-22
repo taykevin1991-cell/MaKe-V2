@@ -483,10 +483,14 @@
 
     /* ── LOGO CAROUSEL ── */
     .logo-carousel-outer {
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
       position: relative;
       padding: 0.5rem 0;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
+    .logo-carousel-outer::-webkit-scrollbar { display: none; }
     .logo-carousel-outer::before,
     .logo-carousel-outer::after {
       content: '';
@@ -506,6 +510,7 @@
       animation: logo-scroll 50s linear infinite;
     }
     .logo-carousel-track:hover { animation-play-state: paused; }
+    .logo-carousel-outer:active .logo-carousel-track { animation-play-state: paused; }
 
     @keyframes logo-scroll {
       from { transform: translateX(0); }
@@ -1771,13 +1776,13 @@
           The agency that<br /><em style="font-weight:400;font-style:italic">curates destinations</em>
         </h2>
         <p style="color:#7A7468;line-height:1.75;margin-bottom:1.25rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
-          MaKe is a retail location agency and commercial leasing consultancy based in Kuala Lumpur, Malaysia. We believe every space has a story, and every brand deserves to tell it in the right location.
+          MaKe is a retail agency and commercial leasing consultant based in Kuala Lumpur, Malaysia. We believe every space has a story, and every brand deserves to tell it in the right location.
         </p>
         <p style="color:#7A7468;line-height:1.75;margin-bottom:1.25rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
-          We work with brands across F&amp;B, wellness, fitness, and lifestyle to find and secure spaces that truly fit. On the developer side, we help curate retail environments that draw the right tenants and turn properties into destinations.
+          We help F&amp;B outlets, wellness studios, fitness concepts, and lifestyle brands find and secure the right shoplot, retail lot, or commercial unit for their next outlet or expansion. On the developer side, we help fill retail floors with tenants that turn properties into destinations.
         </p>
         <p style="color:#7A7468;line-height:1.75;margin-bottom:2.5rem;font-size:0.9375rem;text-align:justify;text-justify:inter-word">
-          Currently operating across Klang Valley, with expansion into Johor and Singapore underway.
+          Whether you are opening your first shop or expanding to a second location in KL or PJ, we handle the scouting, negotiation, and placement so you can focus on your brand. Currently operating across Kuala Lumpur and Petaling Jaya.
         </p>
         <div style="display:flex;gap:2.5rem;flex-wrap:wrap">
           <div>
