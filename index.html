@@ -937,6 +937,7 @@
   <a href="#projects" onclick="closeMobileMenu()">Featured Work</a>
   <a href="#dev-projects" onclick="closeMobileMenu()">Projects</a>
   <a href="#clients" onclick="closeMobileMenu()">Clients</a>
+  <a href="#editorial" onclick="closeMobileMenu()">The Editorial</a>
   <a href="#about" onclick="closeMobileMenu()">About</a>
   <a href="#contact" onclick="closeMobileMenu()" style="color:#C4B49A">Get in Touch</a>
 </div>
@@ -955,6 +956,7 @@
     <a href="#projects" class="nav-link">Featured Work</a>
     <a href="#dev-projects" class="nav-link">Projects</a>
     <a href="#clients" class="nav-link">Clients</a>
+    <a href="#editorial" class="nav-link">The Editorial</a>
     <a href="#about" class="nav-link">About</a>
   </div>
 
@@ -1888,10 +1890,20 @@
 
 
 <!-- ══════════════════════════════════════
-     BLOG
+     THE EDITORIAL
 ══════════════════════════════════════ -->
-<section class="section-pad">
+<section id="editorial" class="section-pad">
   <div style="max-width:1280px;margin:0 auto">
+    <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem">
+      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">The Editorial</span>
+      <div style="height:1px;width:48px;background:rgba(13,13,13,0.1)"></div>
+    </div>
+    <h2 class="fade-up delay-100" style="font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.1;margin-bottom:3rem">
+      Stories from<br /><em style="font-weight:400;font-style:italic">the ground.</em>
+    </h2>
+    <style>
+      .soro-blog-card-date, .soro-blog-article-date { display: none !important; }
+    </style>
     <div id="soro-blog"></div>
     <script src="https://app.trysoro.com/api/embed/70717c64-cb74-4ad0-a2b4-2cff37d0270c" defer></script>
   </div>
