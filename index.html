@@ -1720,26 +1720,54 @@
 
   @media (max-width: 768px) {
     .proj-selector {
-      height: 440px;
-      gap: 3px;
+      display: flex;
+      flex-direction: row;
+      height: 420px;
+      gap: 0;
       border-radius: 12px;
       box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .proj-selector::-webkit-scrollbar { display: none; }
     .proj-panel {
-      min-width: 48px;
+      flex: 0 0 85vw;
+      min-width: 85vw;
+      scroll-snap-align: start;
+      border-left: none;
+      border-radius: 12px;
     }
-    .proj-panel.active { flex: 7 1 0%; }
-    .proj-panel:not(.active) { flex: 0.5 1 0%; }
-    .proj-panel-desc {
+    .proj-panel.active, .proj-panel:not(.active) {
+      flex: 0 0 85vw;
+    }
+    .proj-panel::before {
+      background: rgba(0,0,0,0.15);
+    }
+    .proj-panel .proj-panel-title,
+    .proj-panel .proj-panel-sub {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .proj-panel .proj-panel-desc {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
       max-width: 100%;
-      left: 0.75rem; right: 0.75rem; bottom: 4rem;
+      left: 1rem; right: 1rem; bottom: 4.5rem;
       padding: 1rem 1.25rem;
     }
-    .proj-panel-desc p { font-size: 0.72rem; }
-    .proj-panel-label { padding: 0 0.75rem; bottom: 1rem; }
+    .proj-panel .proj-panel-shadow {
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
+    }
+    .proj-panel-desc p { font-size: 0.78rem; line-height: 1.65; }
+    .proj-panel-label { padding: 0 1rem; bottom: 1rem; }
     .proj-panel-info { white-space: normal; }
-    .proj-panel-title { font-size: 1rem; }
-    .proj-panel-sub { font-size: 0.6rem; }
+    .proj-panel-title { font-size: 1.1rem; }
+    .proj-panel-sub { font-size: 0.65rem; }
+    .proj-panel::after { opacity: 1; top: 0.75rem; right: 0.75rem; }
   }
 </style>
 
