@@ -267,6 +267,78 @@
     }
     .fade-up.in-view { opacity: 1; transform: translateY(0); }
 
+    /* ── CINEMATIC LAYER: the scout's lens ── */
+    /* rack focus: headlines resolve from soft to sharp, like a lens finding
+       its subject — applied only to section headlines so it stays an event */
+    h2.fade-up {
+      filter: blur(14px);
+      transform: translateY(24px) scale(1.03);
+      transition: opacity 1.1s ease, filter 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    h2.fade-up.in-view { filter: blur(0); transform: translateY(0) scale(1); }
+
+    /* film grain: whole page reads as shot on film; below conscious notice */
+    #film-grain {
+      position: fixed;
+      inset: -100%;
+      z-index: 9998;
+      pointer-events: none;
+      opacity: 0.05;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+      animation: grain-shift 0.9s steps(4) infinite;
+    }
+    @keyframes grain-shift {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(-2%, 1.5%); }
+      50% { transform: translate(1.5%, -1%); }
+      75% { transform: translate(-1%, -2%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* scroll progress: a gold hairline — how far into the story you are */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 100%;
+      transform-origin: left;
+      transform: scaleX(0);
+      background: #C4B49A;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    /* scene marker: quiet wayfinding, desktop only */
+    #scene-marker {
+      position: fixed;
+      left: 1.5rem;
+      bottom: 1.5rem;
+      z-index: 9997;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.4);
+      mix-blend-mode: difference;
+      color: rgba(196,180,154,0.85);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    #scene-marker.visible { opacity: 1; transform: translateY(0); }
+    @media (max-width: 768px) { #scene-marker { display: none; } }
+
+    /* parallax subjects drift slower than the scroll — one axis, small range */
+    .parallax-drift { will-change: transform; }
+
+    @media (prefers-reduced-motion: reduce) {
+      #film-grain { animation: none; }
+      h2.fade-up { filter: none; transform: none; transition: opacity 0.4s ease; }
+      .parallax-drift { transform: none !important; }
+      .logo-ring { animation: none; }
+      #editorial-float { display: none !important; }
+    }
+
     /* ── MARQUEE ── */
     .marquee-track {
       display: flex;
@@ -1432,7 +1504,7 @@
           </div>
         </div>
         <div class="proj-panel-desc">
-          <p>A heritage railway precinct home to brands like Grumpy Bagels and Pickle Depot. Strong residential catchment, growing foot traffic, and a character that attracts tenants who stand out. Retail spaces available for the right concepts.</p>
+          <p>A heritage railway precinct with growing foot traffic, home to Grumpy Bagels and Pickle Depot.</p>
           <a href="#contact" class="proj-panel-cta">Learn more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -1447,7 +1519,7 @@
           </div>
         </div>
         <div class="proj-panel-desc">
-          <p>A modern lifestyle hub within one of PJ's fastest growing integrated developments. Over 400 dedicated parking bays, 8,000+ residential units within walking distance, and a projected population of 60,000 to 80,000. Built for brands that want to be part of something from the start.</p>
+          <p>PJ's new lifestyle hub with 8,000+ homes within walking distance and 400+ parking bays. Join from the start.</p>
           <a href="#contact" class="proj-panel-cta">Learn more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -1462,7 +1534,7 @@
           </div>
         </div>
         <div class="proj-panel-desc">
-          <p>A flexible, community driven space with adaptive layouts and shared amenities. Ideal for F&amp;B concepts, studios, and lifestyle brands that want room to grow alongside a curated tenant community.</p>
+          <p>Adaptive layouts for F&amp;B, studios, and lifestyle brands with room to grow.</p>
           <a href="#contact" class="proj-panel-cta">Learn more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -1477,7 +1549,7 @@
           </div>
         </div>
         <div class="proj-panel-desc">
-          <p>KL's first vertical retail destination in the heart of Chinatown. High pedestrian traffic, cultural draw, and multi level retail designed for discovery and repeat visits. A rare opportunity in one of the city's most walkable districts.</p>
+          <p>KL's first vertical retail destination in Chinatown. High foot traffic, built for discovery.</p>
           <a href="#contact" class="proj-panel-cta">Learn more <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -1492,7 +1564,7 @@
           </div>
         </div>
         <div class="proj-panel-desc">
-          <p>Already have a property, shoplot, or location you have your eye on? Whether it is a mall unit, a shophouse, or a standalone lot, let us know where you want to set up.</p>
+          <p>Mall unit, shophouse, or standalone lot. Tell us where you want to set up.</p>
           <a href="#contact" class="proj-panel-cta">Tell us your location <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
       </div>
@@ -2005,6 +2077,39 @@
       }
       #soro-blog .soro-blog-card:hover .editorial-arrow svg { stroke: #0D0D0D; }
 
+      /* mobile: index top-left, bare gold arrow top-right, title full width */
+      @media (max-width: 768px) {
+        #soro-blog .soro-blog-card {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          grid-template-areas:
+            "num arrow"
+            "content content";
+          row-gap: 0.9rem;
+          align-items: center;
+          padding: 1.6rem 0.25rem;
+        }
+        #soro-blog .soro-blog-card::before {
+          grid-area: num;
+          min-width: 0;
+        }
+        #soro-blog .soro-blog-card-content { grid-area: content; }
+        #soro-blog .soro-blog-card .editorial-arrow {
+          grid-area: arrow;
+          width: auto;
+          height: auto;
+          border: none;
+          border-radius: 0;
+          background: none !important;
+          transform: rotate(-45deg);
+          color: #C4B49A;
+        }
+        #soro-blog .soro-blog-card .editorial-arrow svg { stroke: #C4B49A; }
+        #soro-blog .soro-blog-card:hover .editorial-arrow { transform: rotate(-45deg); }
+        #soro-blog .soro-blog-card-title { font-size: 1.35rem; }
+        /* touch has no hover: keep excerpts hidden, rows stay scannable */
+      }
+
       /* floating cursor preview */
       #editorial-float {
         position: fixed;
@@ -2463,6 +2568,99 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.fade-up, .reveal-line').forEach(el => observer.observe(el));
+
+  // ── CINEMATIC LAYER ──
+  (function () {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // overlays
+    if (!reduced) {
+      const grain = document.createElement('div');
+      grain.id = 'film-grain';
+      document.body.appendChild(grain);
+    }
+    const bar = document.createElement('div');
+    bar.id = 'scroll-progress';
+    document.body.appendChild(bar);
+    const marker = document.createElement('div');
+    marker.id = 'scene-marker';
+    document.body.appendChild(marker);
+
+    // scenes for wayfinding
+    const scenes = [
+      ['hero', 'Opening'],
+      ['projects', 'The Placements'],
+      ['dev-projects', 'The Spaces'],
+      ['clients', 'The Company We Keep'],
+      ['about', 'About MaKe'],
+      ['editorial', 'The Editorial'],
+      ['contact', 'Get In Touch']
+    ].map(([id, label], i) => {
+      const el = document.getElementById(id);
+      return el ? { el, label, i } : null;
+    }).filter(Boolean);
+
+    // parallax subject: the about photo drifts slower than the scroll
+    const aboutImg = document.querySelector('.about-photo img');
+    if (aboutImg && !reduced) {
+      aboutImg.classList.add('parallax-drift');
+      aboutImg.style.height = '120%';
+      aboutImg.style.marginTop = '-10%';
+    }
+
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
+
+        // active scene = last section whose top passed mid-viewport
+        let active = null;
+        for (const s of scenes) {
+          if (s.el.getBoundingClientRect().top < innerHeight * 0.5) active = s;
+        }
+        if (active) {
+          const text = 'Scene ' + String(active.i + 1).padStart(2, '0') + ' — ' + active.label;
+          if (marker.textContent !== text) marker.textContent = text;
+          marker.classList.add('visible');
+        } else {
+          marker.classList.remove('visible');
+        }
+
+        if (aboutImg && !reduced) {
+          const r = aboutImg.parentElement.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < innerHeight) {
+            const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+            aboutImg.style.transform = 'translateY(' + (p * 36).toFixed(1) + 'px)';
+          }
+        }
+      });
+    }
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // magnetic pull on editorial arrows — a small reward at the point of action
+    if (!reduced) {
+      document.addEventListener('mousemove', e => {
+        const card = e.target.closest && e.target.closest('.soro-blog-card');
+        document.querySelectorAll('.editorial-arrow').forEach(a => {
+          if (card && card.contains(a)) {
+            const r = a.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width / 2);
+            const dy = e.clientY - (r.top + r.height / 2);
+            const d = Math.hypot(dx, dy);
+            const pull = Math.max(0, 1 - d / 260) * 10;
+            a.style.translate = (dx / d * pull || 0) + 'px ' + (dy / d * pull || 0) + 'px';
+          } else if (a.style.translate) {
+            a.style.translate = '';
+          }
+        });
+      }, { passive: true });
+    }
+  })();
 
   // ── REPLAY ANIMATIONS for Brands in Their Spaces ──
   const projSection = document.getElementById('projects');
