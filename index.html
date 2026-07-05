@@ -481,94 +481,80 @@
     }
     .logo-item:hover { border-color: #0D0D0D; color: #0D0D0D; background: white; }
 
-    /* ── LOGO CAROUSEL ── */
-    .logo-carousel-outer {
-      overflow-x: auto;
-      overflow-y: hidden;
+    /* ── 3D LOGO RING ── */
+    .logo-ring-stage {
       position: relative;
-      padding: 0.5rem 0;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
+      height: clamp(230px, 32vw, 340px);
+      perspective: 1600px;
+      overflow: hidden;
+      cursor: grab;
+      touch-action: pan-y;
     }
-    .logo-carousel-outer::-webkit-scrollbar { display: none; }
-    .logo-carousel-outer::before,
-    .logo-carousel-outer::after {
+    .logo-ring-stage:active { cursor: grabbing; }
+    /* soft floor shadow grounds the cylinder */
+    .logo-ring-stage::after {
       content: '';
       position: absolute;
-      top: 0; bottom: 0;
-      width: 120px;
-      z-index: 2;
+      left: 50%;
+      bottom: 6%;
+      width: min(70%, 720px);
+      height: 26px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center, rgba(13,13,13,0.1) 0%, transparent 70%);
       pointer-events: none;
     }
-    .logo-carousel-outer::before { left: 0;  background: linear-gradient(to right, #F5F2EE 40%, transparent); }
-    .logo-carousel-outer::after  { right: 0; background: linear-gradient(to left,  #F5F2EE 40%, transparent); }
-
-    .logo-carousel-track {
-      display: flex;
-      gap: 1rem;
-      width: max-content;
-      animation: logo-scroll 50s linear infinite;
+    @media (max-width: 768px) {
+      .logo-ring-stage { height: 200px; perspective: 900px; }
     }
-    .logo-carousel-track:hover { animation-play-state: paused; }
-    .logo-carousel-outer:hover .logo-carousel-track { animation-play-state: paused; }
-    .logo-carousel-outer:active .logo-carousel-track { animation-play-state: paused; }
-    .logo-carousel-outer { cursor: grab; }
-    .logo-carousel-outer:active { cursor: grabbing; }
-
-    @keyframes logo-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    .logo-ring-drag,
+    .logo-ring {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
     }
-
-    .logo-card {
-      flex-shrink: 0;
-      width: 240px;
-      border: 1px solid rgba(13,13,13,0.08);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem 0.75rem 1rem;
-      gap: 0.875rem;
-      cursor: default;
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    .logo-ring {
+      animation: ring-spin 70s linear infinite;
+      will-change: transform;
     }
-    .logo-card:hover {
-      transform: scale(1.06);
-      border-color: rgba(13,13,13,0.18);
-      box-shadow: 0 6px 24px rgba(13,13,13,0.08);
-      z-index: 10;
+    .logo-ring-stage:hover .logo-ring { animation-play-state: paused; }
+    @keyframes ring-spin {
+      from { transform: rotateY(0deg); }
+      to   { transform: rotateY(-360deg); }
     }
-    .logo-card-icon {
-      width: 180px;
-      height: 120px;
-      background: rgba(245,242,238,0.96);
+    .ring-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--tile, 148px);
+      height: var(--tile, 148px);
+      margin: calc(var(--tile, 148px) / -2) 0 0 calc(var(--tile, 148px) / -2);
+      border-radius: 24%;
+      background: #FFFFFF;
+      box-shadow: 0 20px 45px rgba(13,13,13,0.16);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0.15rem;
-      flex-shrink: 0;
+      padding: calc(var(--tile, 148px) * 0.14);
+      transform-style: preserve-3d;
     }
-    .logo-card-icon img {
-      width: 90%;
-      height: 90%;
+    .ring-card img {
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       display: block;
+      pointer-events: none;
+      user-select: none;
     }
-    .logo-card-name {
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(13,13,13,0.35);
-      text-align: center;
-      line-height: 1.4;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-    .logo-card:hover .logo-card-name {
-      opacity: 1;
-      transform: translateY(0);
+    /* cream veil — only visible when the tile faces away, so the
+       back half of the ring recedes into the page background */
+    .ring-card .ring-veil {
+      position: absolute;
+      inset: -1px;
+      border-radius: 24%;
+      background: rgba(245,242,238,0.9);
+      transform: rotateY(180deg);
+      backface-visibility: hidden;
+      pointer-events: none;
     }
 
     /* ── CONTACT CHANNELS ── */
@@ -1415,35 +1401,6 @@
 </style>
 
 
-<!-- ══════════════════════════════════════
-     SECTORS
-══════════════════════════════════════ -->
-<section class="section-pad" style="border-top:1px solid rgba(13,13,13,0.1);text-align:center">
-  <div style="max-width:900px;margin:0 auto">
-    <div class="fade-up">
-      <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#7A7468">We Serve Sectors in Every Category</span>
-      <h2 style="font-family:'Playfair Display',serif;font-weight:900;margin-top:1rem;line-height:1.1">
-        <span class="sector-cycle-wrap" id="sector-cycle" style="font-size:clamp(2.8rem,7vw,5.5rem);min-width:0;display:block;position:relative;overflow:hidden;height:1.15em">
-          <span class="sector-word" data-sector="F&amp;B">F&amp;B</span>
-          <span class="sector-word" data-sector="Wellness">Wellness</span>
-          <span class="sector-word" data-sector="Fitness">Fitness</span>
-          <span class="sector-word" data-sector="Lifestyle">Lifestyle</span>
-          <span class="sector-word" data-sector="Beauty">Beauty</span>
-          <span class="sector-word" data-sector="Fashion">Fashion</span>
-          <span class="sector-word" data-sector="Home &amp; Living">Home &amp; Living</span>
-          <span class="sector-word" data-sector="Electronics">Electronics</span>
-          <span class="sector-word" data-sector="Entertainment">Entertainment</span>
-          <span class="sector-word" data-sector="Services">Services</span>
-        </span>
-      </h2>
-    </div>
-    <div id="sector-pills" style="display:none">
-      <div class="sector-pill" data-pill="Entertainment">Entertainment</div>
-      <div class="sector-pill" data-pill="Services">Services</div>
-    </div>
-  </div>
-</section>
-
 
 <!-- ══════════════════════════════════════
      PROJECTS
@@ -1792,14 +1749,14 @@
       Brands that<br /><em style="font-weight:400;font-style:italic">trust us.</em>
     </h2>
 
-    <div class="fade-up delay-200 logo-carousel-outer" id="brand-grid"></div>
+    <div class="fade-up delay-200 logo-ring-stage" id="brand-grid"></div>
 
     <div style="margin-top:4rem">
       <div class="fade-up" style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
         <span style="font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#C4B49A">Developer &amp; Landlord</span>
         <div style="height:1px;width:48px;background:rgba(13,13,13,0.15)"></div>
       </div>
-      <div class="fade-up delay-100 logo-carousel-outer" id="dev-grid"></div>
+      <div class="fade-up delay-100 logo-ring-stage" id="dev-grid"></div>
     </div>
 
   </div>
@@ -1931,9 +1888,191 @@
     </h2>
     <style>
       .soro-blog-card-date, .soro-blog-article-date { display: none !important; }
+
+      /* ── The Editorial: luxury magazine index ── */
+      #soro-blog .soro-blog-list {
+        display: block;
+        border-top: 1px solid rgba(13,13,13,0.15);
+        counter-reset: editorial;
+      }
+      #soro-blog .soro-blog-card {
+        counter-increment: editorial;
+        display: flex;
+        align-items: center;
+        gap: clamp(1.25rem, 4vw, 3rem);
+        position: relative;
+        padding: clamp(1.75rem, 4vw, 2.75rem) clamp(0.75rem, 2vw, 1.5rem);
+        border-bottom: 1px solid rgba(13,13,13,0.15);
+        text-decoration: none;
+        color: #0D0D0D;
+        overflow: hidden;
+        transition: color 0.45s cubic-bezier(0.65,0,0.35,1);
+      }
+      /* ink sweep */
+      #soro-blog .soro-blog-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: #0D0D0D;
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
+        z-index: 0;
+      }
+      #soro-blog .soro-blog-card:hover::after { transform: scaleY(1); transform-origin: top; }
+      #soro-blog .soro-blog-card:hover { color: #F5F2EE; }
+
+      /* neutralize Soro's default card box styling */
+      #soro-blog .soro-blog-card {
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+      }
+      #soro-blog .soro-blog-card:hover { background: transparent !important; box-shadow: none !important; }
+      #soro-blog .soro-blog-card-title,
+      #soro-blog .soro-blog-card-excerpt { color: inherit !important; }
+
+      /* index number */
+      #soro-blog .soro-blog-card::before {
+        content: "N\00BA " counter(editorial, decimal-leading-zero);
+        position: relative;
+        z-index: 1;
+        flex-shrink: 0;
+        font-size: 0.7rem;
+        letter-spacing: 0.18em;
+        color: #7A7468;
+        font-weight: 500;
+        min-width: 3.5rem;
+        transition: color 0.45s cubic-bezier(0.65,0,0.35,1);
+      }
+      #soro-blog .soro-blog-card:hover::before { color: #C4B49A; }
+
+      /* hide inline thumbnail — it becomes the floating preview */
+      #soro-blog .soro-blog-card-image { display: none; }
+
+      #soro-blog .soro-blog-card-content { position: relative; z-index: 1; flex: 1; min-width: 0; }
+      #soro-blog .soro-blog-card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.4rem, 3.2vw, 2.4rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin: 0;
+        transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
+      }
+      #soro-blog .soro-blog-card:hover .soro-blog-card-title {
+        transform: translateX(0.75rem);
+        font-style: italic;
+        font-weight: 400;
+      }
+      #soro-blog .soro-blog-card-excerpt {
+        max-width: 56ch;
+        font-size: 0.875rem;
+        line-height: 1.65;
+        color: inherit;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        margin: 0;
+        transform: translateY(6px);
+        transition: opacity 0.45s ease 0.1s, max-height 0.45s cubic-bezier(0.65,0,0.35,1), transform 0.45s ease 0.1s, margin 0.45s ease;
+      }
+      #soro-blog .soro-blog-card:hover .soro-blog-card-excerpt {
+        opacity: 0.65;
+        max-height: 6em;
+        margin-top: 0.75rem;
+        transform: translateY(0);
+      }
+
+      /* trailing arrow */
+      #soro-blog .soro-blog-card .editorial-arrow {
+        position: relative;
+        z-index: 1;
+        flex-shrink: 0;
+        width: 2.75rem;
+        height: 2.75rem;
+        border: 1px solid rgba(13,13,13,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: border-color 0.45s ease, background 0.45s ease, transform 0.45s cubic-bezier(0.65,0,0.35,1);
+      }
+      #soro-blog .soro-blog-card:hover .editorial-arrow {
+        border-color: #C4B49A;
+        background: #C4B49A;
+        transform: rotate(-45deg);
+      }
+      #soro-blog .soro-blog-card:hover .editorial-arrow svg { stroke: #0D0D0D; }
+
+      /* floating cursor preview */
+      #editorial-float {
+        position: fixed;
+        top: 0; left: 0;
+        width: clamp(200px, 22vw, 300px);
+        aspect-ratio: 4/3;
+        pointer-events: none;
+        z-index: 60;
+        opacity: 0;
+        overflow: hidden;
+        border-radius: 2px;
+        box-shadow: 0 30px 60px rgba(13,13,13,0.35);
+        transition: opacity 0.35s ease;
+        will-change: transform;
+      }
+      #editorial-float img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      #editorial-float.visible { opacity: 1; }
+      @media (hover: none), (max-width: 768px) { #editorial-float { display: none !important; } }
     </style>
     <div id="soro-blog"></div>
+    <div id="editorial-float"><img alt="" /></div>
     <script src="https://app.trysoro.com/api/embed/70717c64-cb74-4ad0-a2b4-2cff37d0270c" defer></script>
+    <script>
+      (function () {
+        const float = document.getElementById('editorial-float');
+        const floatImg = float.querySelector('img');
+        let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+        function loop() {
+          cx += (tx - cx) * 0.12;
+          cy += (ty - cy) * 0.12;
+          const tilt = Math.max(-6, Math.min(6, (tx - cx) * 0.08));
+          float.style.transform = 'translate(' + (cx + 24) + 'px,' + (cy - 90) + 'px) rotate(' + tilt + 'deg)';
+          raf = requestAnimationFrame(loop);
+        }
+
+        function bindCards() {
+          document.querySelectorAll('#soro-blog .soro-blog-card').forEach(function (card) {
+            if (card.dataset.editorialBound) return;
+            card.dataset.editorialBound = '1';
+            // trailing arrow
+            const arrow = document.createElement('span');
+            arrow.className = 'editorial-arrow';
+            arrow.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+            card.appendChild(arrow);
+
+            const img = card.querySelector('.soro-blog-card-image');
+            card.addEventListener('mouseenter', function (e) {
+              if (!img || !img.src) return;
+              floatImg.src = img.src;
+              tx = cx = e.clientX; ty = cy = e.clientY;
+              float.classList.add('visible');
+              if (!raf) loop();
+            });
+            card.addEventListener('mousemove', function (e) { tx = e.clientX; ty = e.clientY; });
+            card.addEventListener('mouseleave', function () {
+              float.classList.remove('visible');
+              if (raf) { cancelAnimationFrame(raf); raf = null; }
+            });
+          });
+        }
+
+        // the embed injects asynchronously — watch for cards appearing
+        const target = document.getElementById('soro-blog');
+        new MutationObserver(bindCards).observe(target, { childList: true, subtree: true });
+        bindCards();
+      })();
+    </script>
   </div>
 </section>
 
@@ -2306,28 +2445,72 @@
       { name: 'LGB Group',               logo: 'logos/image47.png'   },
     ];
 
-    function buildCarousel(containerId, brands, speed) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-      const track = document.createElement('div');
-      track.className = 'logo-carousel-track';
-      track.style.animationDuration = speed + 's';
-      [brands, brands].forEach(set => {
-        set.forEach(({ name, logo }) => {
-          const card = document.createElement('div');
-          card.className = 'logo-card';
-          card.innerHTML = `
-            <div class="logo-card-icon"><img src="${logo}" alt="${name}" /></div>
-            <div class="logo-card-name">${name}</div>
-          `;
-          track.appendChild(card);
-        });
+    function buildRing(containerId, brands, duration, reverse, sharedRadius) {
+      const stage = document.getElementById(containerId);
+      if (!stage) return;
+      // pad sparse lists by repeating logos so every ring has similar density
+      let list = brands.slice();
+      while (list.length < 24) list = list.concat(brands);
+      const n = list.length;
+      const radius = sharedRadius;
+      // tile size derived from the shared circumference so all rings match
+      const tile = Math.round((2 * radius * Math.sin(Math.PI / n)) / 1.45);
+      stage.style.setProperty('--tile', tile + 'px');
+
+      const drag = document.createElement('div');
+      drag.className = 'logo-ring-drag';
+      const ring = document.createElement('div');
+      ring.className = 'logo-ring';
+      ring.style.animationDuration = duration + 's';
+      if (reverse) ring.style.animationDirection = 'reverse';
+
+      list.forEach(({ name, logo }, i) => {
+        const card = document.createElement('div');
+        card.className = 'ring-card';
+        card.style.transform = 'rotateY(' + (i * 360 / n) + 'deg) translateZ(' + radius + 'px)';
+        card.innerHTML = '<img src="' + logo + '" alt="' + name + '" loading="lazy" /><span class="ring-veil"></span>';
+        ring.appendChild(card);
       });
-      container.appendChild(track);
+
+      // push the ring back so the front row sits at natural scale,
+      // with a slight cinematic tilt
+      let rot = 0;
+      const baseTransform = () => 'rotateX(-6deg) translateZ(' + (-radius) + 'px) rotateY(' + rot + 'deg)';
+      drag.style.transform = baseTransform();
+      drag.appendChild(ring);
+      stage.appendChild(drag);
+
+      // drag to spin
+      let dragging = false, lastX = 0;
+      stage.addEventListener('pointerdown', e => {
+        dragging = true;
+        lastX = e.clientX;
+        ring.style.animationPlayState = 'paused';
+        stage.setPointerCapture(e.pointerId);
+      });
+      stage.addEventListener('pointermove', e => {
+        if (!dragging) return;
+        rot += (e.clientX - lastX) * 0.25;
+        lastX = e.clientX;
+        drag.style.transform = baseTransform();
+      });
+      ['pointerup', 'pointercancel'].forEach(ev =>
+        stage.addEventListener(ev, () => {
+          dragging = false;
+          ring.style.animationPlayState = '';
+        })
+      );
     }
 
-    buildCarousel('brand-grid', retailBrands, 60);
-    buildCarousel('dev-grid', devBrands, 40);
+    // one shared radius so both cylinders have the same circumference
+    (function () {
+      const stageEl = document.getElementById('brand-grid');
+      const stageW = (stageEl && stageEl.clientWidth) || 1280;
+      const tileBase = Math.round(Math.min(150, Math.max(84, stageW * 0.13)));
+      const sharedRadius = Math.round((tileBase * 1.45) / (2 * Math.sin(Math.PI / 29)));
+      buildRing('brand-grid', retailBrands, 80, false, sharedRadius);
+      buildRing('dev-grid', devBrands, 60, true, sharedRadius);
+    })();
   })();
 
   // ── SECTOR CYCLING ──
