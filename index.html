@@ -107,7 +107,8 @@
       background-color: #F5F2EE;
       color: #0D0D0D;
       font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
+      /* overflow-x:hidden here breaks position:sticky (hero stage);
+         horizontal clipping is handled by <html> instead */
     }
 
     /* ── LOGO INTRO SECTION ── */
@@ -214,15 +215,75 @@
     /* ── HERO ── */
     #hero {
       position: relative;
-      min-height: 100vh;
+      height: 170vh; /* scroll runway for the logo sequence */
+    }
+    .hero-stage {
+      position: sticky;
+      top: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      align-items: center;
+      justify-content: center;
       padding: 8rem 3rem 5rem;
       overflow: hidden;
     }
+    #hero-logo {
+      width: clamp(200px, 34vw, 460px);
+      height: auto;
+      display: block;
+      z-index: 2;
+      will-change: transform, opacity, filter;
+      /* opening shot: the mark finds focus.
+         fill-mode backwards only — a finished "both"/"forwards" animation
+         overrides the inline scroll transforms */
+      animation: hero-logo-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    @keyframes hero-logo-in {
+      from { opacity: 0; transform: scale(1.12); filter: blur(18px); }
+      to   { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+    #hero-copy .hero-headline {
+      font-size: clamp(2.2rem, 5.5vw, 5rem);
+      max-width: none;
+      margin-bottom: 0;
+    }
+    #hero-copy {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(3rem, 10vh, 6rem);
+      transform: translateX(-50%) translateY(30px);
+      opacity: 0;
+      text-align: center;
+      width: 100%;
+      padding: 0 1.25rem;
+      will-change: transform, opacity;
+    }
+    #hero-scroll-cue {
+      position: absolute;
+      bottom: 1.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(13,13,13,0.35);
+      animation: cue-bob 2.2s ease-in-out infinite;
+    }
+    @keyframes cue-bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+    }
     @media (max-width: 768px) {
-      #hero { padding: 7rem 1.25rem 4rem; }
+      .hero-stage { padding: 7rem 1.25rem 4rem; }
+      #hero { height: 150vh; }
+      #hero-logo { width: clamp(160px, 48vw, 240px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #hero { height: auto; min-height: 100vh; }
+      #hero-logo { animation: none; }
+      #hero-copy { opacity: 1; transform: translateX(-50%); }
+      #hero-scroll-cue { animation: none; }
     }
 
     .hero-noise {
@@ -780,7 +841,9 @@
     @media (max-width: 768px) {
 
       /* Prevent horizontal scroll */
-      html, body { overflow-x: hidden !important; max-width: 100%; }
+      /* body must stay overflow:visible or position:sticky breaks */
+      html { overflow-x: hidden !important; max-width: 100%; }
+      body { max-width: 100%; }
 
       /* Navbar — hide GET IN TOUCH, keep hamburger */
       #navbar .btn-primary { display: none; }
@@ -812,28 +875,45 @@
       /* About stats — wrap tightly */
       [style*="display:flex;gap:2.5rem;flex-wrap:wrap"] { gap: 1.5rem !important; }
 
-      /* What We Do — horizontal swipe */
-      .wwd-scroll-wrap, .wwd-sticky { display: contents; }
+      /* What We Do — scroll-driven horizontal sweep:
+         the section pins and vertical scroll glides the panels sideways,
+         so the developer panel is always seen */
+      .wwd-scroll-wrap { display: block; height: 260vh; position: relative; }
+      .wwd-sticky {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
       .wwd-grid {
         display: flex !important;
-        overflow-x: auto !important;
-        overflow-y: visible !important;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
+        overflow: visible !important;
         border: none !important;
         gap: 1rem;
-        scrollbar-width: none;
+        width: max-content;
+        will-change: transform;
         padding: 0.5rem 0;
       }
-      .wwd-grid::-webkit-scrollbar { display: none; }
       .wwd-grid > div {
         flex: 0 0 85vw;
-        scroll-snap-align: start;
         border-radius: 12px;
         border-right: none !important;
+        max-height: 74vh;
+        overflow-y: auto;
       }
       .wwd-tenants {
         border-right: none !important;
+      }
+      /* sweep is automatic now — no swipe hint needed */
+      #wwd-indicator { display: none !important; }
+      @media (prefers-reduced-motion: reduce) {
+        .wwd-scroll-wrap { height: auto; }
+        .wwd-sticky { position: static; height: auto; display: block; }
+        .wwd-grid { overflow-x: auto !important; scroll-snap-type: x mandatory; }
+        .wwd-grid > div { scroll-snap-align: start; }
       }
 
       /* Swipe indicators */
@@ -1031,129 +1111,31 @@
 
 
 <!-- ══════════════════════════════════════
-     LOGO INTRO
-══════════════════════════════════════ -->
-
-
-<div id="logo-intro">
-  <div id="shader-canvas-wrap"></div>
-  <div id="intro-fade-overlay"></div>
-  <div id="intro-logo-wrap">
-    <img src="makelogo.png" alt="MaKe" />
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
      HERO
 ══════════════════════════════════════ -->
 <section id="hero">
-  <div class="hero-noise"></div>
+  <div class="hero-stage">
+    <div class="hero-noise"></div>
 
-  <div class="absolute top-24 right-10 hidden md:block" style="writing-mode:vertical-rl">
-    <p class="text-xs tracking-widest uppercase" style="color:#7A7468;transform:rotate(180deg)">Kuala Lumpur and Petaling Jaya · Malaysia</p>
-  </div>
-
-  <div style="max-width:1280px;margin:0 auto;width:100%">
-    <div class="reveal-line" style="margin-bottom:1.5rem">
-      <span class="text-xs tracking-widest uppercase" style="color:#7A7468;font-family:'Inter',sans-serif">Retail Location Agency &amp; Commercial Leasing</span>
+    <div class="absolute top-24 right-10 hidden md:block" style="writing-mode:vertical-rl">
+      <p class="text-xs tracking-widest uppercase" style="color:#7A7468;transform:rotate(180deg)">Kuala Lumpur and Petaling Jaya · Malaysia</p>
     </div>
 
-    <h1 class="hero-headline">
-      <div class="reveal-line" style="transition-delay:0s"><span style="font-weight:300;font-size:0.72em">We Place the</span></div>
-      <div class="reveal-line" style="transition-delay:0.12s"><span style="font-weight:900">Right Brands</span></div>
-      <div class="reveal-line" style="transition-delay:0.24s"><span style="font-weight:300;font-size:0.72em">in the</span></div>
-      <div class="reveal-line" style="transition-delay:0.36s"><span style="font-weight:900">Right Spaces.</span></div>
-    </h1>
+    <img id="hero-logo" src="makelogo.png" alt="MaKe Spaces" />
 
+    <div id="hero-copy">
+      <p class="text-xs tracking-widest uppercase" style="color:#7A7468;font-family:'Inter',sans-serif;margin-bottom:1.25rem">Retail Location Agency &amp; Commercial Leasing</p>
+      <h1 class="hero-headline">
+        <span style="font-weight:300;font-size:0.72em;display:block">We Place the</span>
+        <span style="font-weight:900;display:block">Right Brands</span>
+        <span style="font-weight:300;font-size:0.72em;display:block">in the</span>
+        <span style="font-weight:900;display:block">Right Spaces.</span>
+      </h1>
+    </div>
+
+    <div id="hero-scroll-cue">Scroll</div>
   </div>
 </section>
-
-<div class="divider"></div>
-
-
-<!-- ══════════════════════════════════════
-     MARQUEE — SERVICES
-══════════════════════════════════════ -->
-<section id="services-marquee" style="background:#0D0D0D;color:#F5F2EE;padding:1.5rem 0;overflow:hidden">
-  <div class="marquee-track" id="mq-track"></div>
-</section>
-
-<!-- floating cursor card — appended to body so it's never clipped -->
-<div id="mq-cursor-card">
-  <div class="cc-line"></div>
-  <div class="cc-label" id="mq-cc-label"></div>
-  <div class="cc-def"   id="mq-cc-def"></div>
-</div>
-
-<script>
-(function(){
-  const services = [
-    { k: 'Location Scouting',      d: 'Finding the right retail space for your brand and concept' },
-    { k: 'Lease Negotiation',     d: 'Structuring deals that protect your interests and budget' },
-    { k: 'Tenant Mix Strategy',   d: 'Balancing F&B, retail, and services for impact' },
-    { k: 'Space Programming',     d: 'Defining proportions, flow, and purpose of use' },
-    { k: 'Tenant Representation', d: 'Acting on behalf of brands to secure the best locations' },
-    { k: 'Leasing Strategy',      d: 'Filling vacancies with the right concepts that stick' },
-    { k: 'Retail Leasing',        d: 'Matching tenants to landlords across KL and PJ' },
-    { k: 'Market Analysis',       d: 'Reading demographics, footfall, and competition before committing' },
-    { k: 'Brand Alignment',       d: 'Ensuring spaces reflect landlord and tenant identity' },
-    { k: 'Site Matching',         d: 'Pairing your concept with locations that make sense' },
-    { k: 'Deal Structuring',      d: 'Negotiating terms, rent, and tenancy conditions' },
-  ];
-
-  const card  = document.getElementById('mq-cursor-card');
-  const clabel = document.getElementById('mq-cc-label');
-  const cdef   = document.getElementById('mq-cc-def');
-  let mx = 0, my = 0, raf;
-
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-
-  function positionCard() {
-    const W = window.innerWidth, H = window.innerHeight;
-    const cw = card.offsetWidth + 24, ch = card.offsetHeight + 16;
-    let x = mx + 20, y = my - ch / 2;
-    if (x + cw > W) x = mx - cw + 4;
-    if (y < 8) y = 8;
-    if (y + ch > H) y = H - ch - 8;
-    card.style.left = x + 'px';
-    card.style.top  = y + 'px';
-    raf = requestAnimationFrame(positionCard);
-  }
-
-  function show(k, d) {
-    clabel.textContent = k;
-    cdef.textContent   = d;
-    card.classList.add('visible');
-    raf = requestAnimationFrame(positionCard);
-  }
-  function hide() {
-    card.classList.remove('visible');
-    cancelAnimationFrame(raf);
-  }
-
-  const track = document.getElementById('mq-track');
-  function buildSet() {
-    const wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex;align-items:center;white-space:nowrap;';
-    services.forEach(({ k, d }) => {
-      const item = document.createElement('span');
-      item.className = 'mq-item';
-      item.innerHTML = `<span class="mq-keyword">${k}</span>`;
-      item.addEventListener('mouseenter', () => { show(k, d); item.classList.add('is-active'); });
-      item.addEventListener('mouseleave', () => { hide();      item.classList.remove('is-active'); });
-      wrap.appendChild(item);
-      const dot = document.createElement('span');
-      dot.className = 'mq-dot';
-      dot.textContent = '·';
-      wrap.appendChild(dot);
-    });
-    return wrap;
-  }
-  track.appendChild(buildSet());
-  track.appendChild(buildSet());
-})();
-</script>
-
 
 <!-- ══════════════════════════════════════
      SERVICES
@@ -1313,25 +1295,41 @@
 
 <style>
   @media (max-width: 768px) {
-    .hww-section { padding: 3rem 1.25rem !important; }
-    .hww-scroll-wrap, .hww-sticky { display: contents; }
+    /* How We Work — scroll-driven horizontal sweep of the three steps,
+       so Consult → Curate → Launch are all guaranteed to be seen */
+    .hww-section { padding: 0 !important; }
+    .hww-scroll-wrap { display: block; height: 300vh; position: relative; }
+    .hww-sticky {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      padding: 3rem 1.25rem;
+    }
     .how-grid {
       display: flex !important;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
+      overflow: visible !important;
       gap: 1rem !important;
-      scrollbar-width: none;
+      width: max-content;
+      will-change: transform;
       padding: 0.5rem 0;
     }
-    .how-grid::-webkit-scrollbar { display: none; }
     .how-grid > div {
       flex: 0 0 80vw;
-      scroll-snap-align: start;
       padding: 1.5rem !important;
       background: rgba(245,242,238,0.06);
       border-radius: 12px;
       border: 1px solid rgba(245,242,238,0.08);
+    }
+    #hww-indicator { display: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .hww-scroll-wrap { height: auto; }
+      .hww-sticky { position: static; height: auto; display: block; padding: 3rem 1.25rem; }
+      .how-grid { overflow-x: auto !important; scroll-snap-type: x mandatory; }
+      .how-grid > div { scroll-snap-align: start; }
     }
   }
 </style>
@@ -2489,6 +2487,26 @@
 
 
 <!-- ══════════════════════════════════════
+     FOOTER FILM — looping typing footage, Contra-style
+══════════════════════════════════════ -->
+<div id="footer-film" style="position:relative;background:#0D0D0D;overflow:hidden;line-height:0">
+  <video id="footer-film-video" src="footer-typing.mp4" loop muted playsinline preload="none"
+         style="width:100%;height:auto;display:block;object-fit:cover;max-height:52vh"></video>
+  <!-- fade: the page melts into the top of the footage -->
+  <div style="position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(180deg, #0D0D0D 0%, rgba(13,13,13,0.6) 45%, transparent 100%);pointer-events:none"></div>
+</div>
+<script>
+  (function () {
+    const v = document.getElementById('footer-film-video');
+    if (!v) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    new IntersectionObserver(([e], obs) => {
+      if (e.isIntersecting) { v.play().catch(() => {}); obs.disconnect(); }
+    }, { rootMargin: '200px' }).observe(v);
+  })();
+</script>
+
+<!-- ══════════════════════════════════════
      FOOTER
 ══════════════════════════════════════ -->
 <footer style="padding:2rem 3rem;background:#0D0D0D;border-top:1px solid rgba(245,242,238,0.08)">
@@ -2529,33 +2547,15 @@
   }
 
   function onScroll() {
-    const scrollY = window.scrollY;
-    const introH  = logoIntro.offsetHeight;
-
-    if (scrollY <= introH) {
-      const raw = Math.min(scrollY / introH, 1);
-      const p   = easeInOut(raw);
-
-      // Fade canvas overlay in from p=0.55
-      const fadeP = Math.max(0, Math.min((p - 0.55) / 0.33, 1));
-      fadeOverlay.style.opacity = fadeP;
-
-      // Logo fades out from p=0.65
-      const logoAlpha = p > 0.65 ? 1 - (p - 0.65) / 0.35 : 1;
-      introWrap.style.opacity = logoAlpha;
-
-      // Nav logo fades in from p=0.78
-      const navAlpha = Math.max(0, Math.min((p - 0.78) / 0.22, 1));
-      navLogo.style.opacity = navAlpha;
-      if (p > 0.5) navbar.classList.add('scrolled');
-      else if (scrollY < 60) navbar.classList.remove('scrolled');
-
+    // nav logo appears once the hero logo has handed off (past the hero runway)
+    const heroSection = document.getElementById('hero');
+    const handoff = heroSection ? heroSection.offsetHeight - innerHeight * 0.6 : 400;
+    if (window.scrollY > handoff) {
+      if (navbar) navbar.classList.add('scrolled');
+      if (navLogo) { navLogo.style.opacity = '1'; navLogo.classList.add('visible'); }
     } else {
-      navbar.classList.add('scrolled');
-      navLogo.style.opacity = '1';
-      navLogo.classList.add('visible');
-      introWrap.style.opacity = '0';
-      fadeOverlay.style.opacity = '1';
+      if (navbar && window.scrollY < 60) navbar.classList.remove('scrolled');
+      if (navLogo) { navLogo.style.opacity = '0'; navLogo.classList.remove('visible'); }
     }
   }
 
@@ -2586,6 +2586,83 @@
     marker.id = 'scene-marker';
     document.body.appendChild(marker);
 
+    // hero logo scroll sequence
+    const heroEl = document.getElementById('hero');
+    const heroLogo = document.getElementById('hero-logo');
+    const heroCopy = document.getElementById('hero-copy');
+    const heroCue = document.getElementById('hero-scroll-cue');
+
+    // progress is lerped toward the scroll target each frame → silky motion
+    let heroP = 0, heroTarget = 0, heroRaf = null;
+
+    function heroApply(p) {
+      // logo: holds, then shrinks, lifts, and dissolves — gone by p = 0.75
+      const scale = 1 - p * 0.75;
+      const rise = -p * innerHeight * 0.58;
+      heroLogo.style.transform = 'translateY(' + rise.toFixed(1) + 'px) scale(' + scale.toFixed(3) + ')';
+      heroLogo.style.opacity = p < 0.35 ? 1 : Math.max(0, 1 - (p - 0.35) / 0.3);
+
+      // headline: surfaces as the logo hands off
+      const c = Math.min(1, Math.max(0, (p - 0.4) / 0.35));
+      heroCopy.style.opacity = c;
+      heroCopy.style.transform = 'translateX(-50%) translateY(' + (30 * (1 - c)).toFixed(1) + 'px)';
+
+      if (heroCue) heroCue.style.visibility = p > 0.05 ? 'hidden' : '';
+    }
+
+    function heroTick() {
+      heroP += (heroTarget - heroP) * 0.16;
+      if (Math.abs(heroTarget - heroP) < 0.001) {
+        heroP = heroTarget;
+        heroApply(heroP);
+        heroRaf = null;
+        return;
+      }
+      heroApply(heroP);
+      heroRaf = requestAnimationFrame(heroTick);
+    }
+
+    function heroScroll() {
+      if (!heroEl || !heroLogo || reduced) return;
+      const runway = heroEl.offsetHeight - innerHeight;
+      if (runway <= 0) return;
+      heroTarget = Math.min(1, Math.max(0, scrollY / runway));
+      if (!heroRaf) heroRaf = requestAnimationFrame(heroTick);
+    }
+
+    // scroll-driven horizontal sweep — vertical scroll glides panels sideways
+    // so every panel is guaranteed to be seen (mobile only)
+    function makeSweep(wrapSel, gridSel) {
+      const wrap = document.querySelector(wrapSel);
+      const grid = document.querySelector(gridSel);
+      let cur = 0, target = 0, raf = null;
+
+      function tick() {
+        cur += (target - cur) * 0.14;
+        if (Math.abs(target - cur) < 0.5) cur = target;
+        grid.style.transform = 'translateX(' + (-cur).toFixed(1) + 'px)';
+        if (cur === target) { raf = null; return; }
+        raf = requestAnimationFrame(tick);
+      }
+
+      return function () {
+        if (!wrap || !grid || reduced) return;
+        if (!window.matchMedia('(max-width: 768px)').matches) {
+          if (grid.style.transform) grid.style.transform = '';
+          return;
+        }
+        const runway = wrap.offsetHeight - innerHeight;
+        if (runway <= 0) return;
+        const p = Math.min(1, Math.max(0, -wrap.getBoundingClientRect().top / runway));
+        const maxX = Math.max(0, grid.scrollWidth - wrap.clientWidth);
+        target = p * maxX;
+        if (!raf) raf = requestAnimationFrame(tick);
+      };
+    }
+
+    const wwdScroll = makeSweep('.wwd-scroll-wrap', '.wwd-grid');
+    const hwwScroll = makeSweep('.hww-scroll-wrap', '.how-grid');
+
     // scenes for wayfinding
     const scenes = [
       ['hero', 'Opening'],
@@ -2614,6 +2691,9 @@
       ticking = true;
       requestAnimationFrame(() => {
         ticking = false;
+        heroScroll();
+        wwdScroll();
+        hwwScroll();
         const max = document.documentElement.scrollHeight - innerHeight;
         bar.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
 
