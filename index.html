@@ -233,16 +233,10 @@
       height: auto;
       display: block;
       z-index: 2;
-      will-change: transform, opacity, filter;
-      /* opening shot: the mark finds focus.
-         fill-mode backwards only — a finished "both"/"forwards" animation
-         overrides the inline scroll transforms */
-      animation: hero-logo-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+      will-change: transform, opacity;
     }
-    @keyframes hero-logo-in {
-      from { opacity: 0; transform: scale(1.12); filter: blur(18px); }
-      to   { opacity: 1; transform: scale(1); filter: blur(0); }
-    }
+    /* letters start invisible; GSAP inflates them on load (no FOUC) */
+    .gsap-ready #make-logo-svg g { opacity: 0; }
     #hero-copy .hero-headline {
       font-size: clamp(2.2rem, 5.5vw, 5rem);
       max-width: none;
@@ -1121,7 +1115,14 @@
       <p class="text-xs tracking-widest uppercase" style="color:#7A7468;transform:rotate(180deg)">Kuala Lumpur and Petaling Jaya · Malaysia</p>
     </div>
 
-    <img id="hero-logo" src="makelogo.png" alt="MaKe Spaces" />
+    <div id="hero-logo" aria-label="MaKe Spaces" role="img">
+    <svg id="make-logo-svg" viewBox="0 0 2069 1797" xmlns="http://www.w3.org/2000/svg" fill="#0D0D0D" style="width:100%;height:auto;display:block;overflow:visible">
+      <g id="Path_M" fill-rule="evenodd"><path d="M 378.022 3.131 C 325.464 14.158, 287.881 59.091, 257.969 146.659 C 255.180 154.821, 247.522 178.933, 240.949 200.240 C 223.285 257.506, 216.793 273.912, 197.314 310.500 C 176.465 349.663, 152.553 386.731, 107.001 450.500 C 47.962 533.152, 27.383 568.082, 13.329 609.500 C -0.356 649.828, -3.678 692.534, 4.072 728.500 C 17.933 792.827, 65.298 839.914, 130 853.690 C 144.010 856.673, 172.450 856.162, 185.388 852.695 C 197.886 849.346, 214.902 841.133, 226.431 832.888 C 266.315 804.360, 302.695 741.714, 314.927 680.500 C 319.626 656.984, 320.441 647.002, 320.439 613 C 320.436 562.063, 316.532 535.325, 295.542 442.500 C 284.391 393.183, 281.432 372.122, 283.106 353.983 C 284.509 338.778, 290.295 327.786, 297.620 326.412 C 309.591 324.166, 331.619 346.745, 354.777 385 C 367.830 406.563, 370.932 413.643, 446.553 594.500 C 488.177 694.050, 523.942 778.899, 526.029 783.053 C 550.489 831.733, 600.954 861.490, 650.163 856.250 C 657.312 855.488, 663.430 855.455, 670 856.141 C 681.187 857.311, 697.738 856.008, 709.311 853.048 C 752.559 841.987, 789.291 806.354, 817.084 748.500 C 835.846 709.444, 844.358 672.098, 845.688 623 C 846.912 577.788, 841.588 536.003, 825.428 464 C 810.487 397.429, 807.940 382.843, 807.907 363.630 C 807.852 332.010, 818.323 319.209, 835.390 330.033 C 848.814 338.546, 870.477 367.106, 888.460 400 C 891.831 406.165, 925.973 486.421, 971.160 594.397 C 1013.488 695.540, 1049.408 780.847, 1050.984 783.968 C 1059.578 800.992, 1076.209 820.770, 1091.721 832.412 C 1134.429 864.465, 1189.297 865.411, 1232.447 834.839 C 1283.835 798.430, 1305.790 726.552, 1284.657 663.911 C 1281.054 653.232, 1044.668 84.287, 1039.810 74.603 C 1022.459 40.013, 991.134 14.009, 955 4.198 C 946.448 1.876, 943.654 1.612, 927 1.559 C 906.546 1.494, 898.413 3.024, 881.269 10.160 C 864.404 17.181, 843.567 34.456, 829.605 52.990 C 806.535 83.616, 792.910 114.186, 772.334 181.491 C 749.751 255.358, 746.196 265.031, 730.063 296.500 C 712.006 331.721, 688.314 370.691, 680.678 377.729 C 669.080 388.420, 651.688 387.179, 641.840 374.957 C 640.064 372.753, 615.748 315.915, 577.454 224.457 C 543.612 143.631, 513.858 73.900, 511.335 69.500 C 490.718 33.550, 458.533 9.490, 421.722 2.507 C 410.324 0.345, 389.911 0.636, 378.022 3.131"/></g>
+      <g id="Path_a" fill-rule="evenodd"><path d="M 1690.500 231.677 C 1532.864 234.365, 1465.338 256.200, 1437.460 313.500 C 1431.776 325.183, 1427.853 338.215, 1425.930 351.800 C 1424.191 364.088, 1425.227 387.592, 1427.914 396.821 C 1437.362 429.263, 1462.686 449.180, 1504 456.661 C 1517.662 459.134, 1551.158 459.150, 1563.339 456.688 C 1616.878 445.869, 1651.651 410.061, 1663.429 353.616 C 1670.600 319.255, 1684.112 300.473, 1707.500 292.360 C 1714.846 289.812, 1716.685 289.588, 1730 289.622 C 1763.279 289.708, 1789.678 298.625, 1806.736 315.545 C 1820.221 328.921, 1824.476 340.510, 1824.344 363.500 C 1824.075 410.277, 1808.372 441.459, 1777.500 456.517 C 1761.356 464.391, 1740.163 469, 1720.099 469 C 1701.149 469, 1655.934 474.396, 1623.427 480.536 C 1488.377 506.046, 1409.723 564.082, 1393.040 650.529 C 1385.809 688, 1389.712 725.423, 1403.711 752.859 C 1432.922 810.106, 1505.175 841.287, 1616.339 844.621 C 1708.408 847.382, 1776.186 817.226, 1821.141 753.500 C 1823.857 749.650, 1826.338 746.595, 1826.654 746.712 C 1826.970 746.828, 1828.557 750.878, 1830.180 755.712 C 1849.459 813.127, 1905.663 849.966, 1965.173 844.192 C 2017.826 839.084, 2052.659 807.048, 2065.197 752.199 C 2067.404 742.543, 2067.415 741.993, 2067.767 629 C 2068.178 496.677, 2067.696 485.362, 2060.006 447 C 2038.066 337.543, 1968.281 268.003, 1854.893 242.606 C 1810.630 232.692, 1773.965 230.254, 1690.500 231.677 M 1805.500 529.682 C 1783.853 531.553, 1757.453 537.183, 1740.337 543.577 C 1679.799 566.193, 1648.891 609.362, 1648.750 671.500 C 1648.590 741.806, 1689.744 770.242, 1749.944 741.420 C 1762.522 735.398, 1769.694 730.111, 1780.534 718.869 C 1799.764 698.924, 1812.998 672.530, 1821.580 637 L 1824.358 625.500 1824.740 577.250 L 1825.122 529 1817.311 529.168 C 1813.015 529.261, 1807.700 529.492, 1805.500 529.682"/></g>
+      <g id="Path_K" fill-rule="evenodd"><path d="M 259.300 917.090 C 142.939 923.145, 48.402 974.772, 31.473 1041.506 L 29 1051.256 29.007 1356.878 C 29.014 1658.443, 29.040 1662.610, 31.002 1670.794 C 40.803 1711.674, 79.878 1747.866, 139.500 1771.287 C 188.689 1790.609, 249.648 1799.507, 309.496 1796.101 C 382.624 1791.939, 412.599 1774.696, 421.374 1731.741 C 424.304 1717.401, 424.907 1697.995, 426.056 1581 C 426.685 1516.925, 427.492 1455.275, 427.850 1444 L 428.500 1423.500 432.374 1423.809 C 441.890 1424.567, 492.180 1441.931, 520.545 1454.252 C 536.109 1461.012, 598.095 1498.393, 637 1524.480 C 694.493 1563.031, 721.391 1585.774, 791.975 1655.518 C 815.364 1678.628, 838.100 1700.418, 842.500 1703.939 C 871.402 1727.069, 896.449 1737.447, 963.455 1754.059 C 1013.333 1766.425, 1024.012 1767.998, 1058 1767.987 C 1104.084 1767.971, 1144.238 1762.549, 1172.457 1752.531 C 1245.592 1726.568, 1285.524 1696.792, 1294.485 1661.540 C 1296.675 1652.926, 1296.433 1637.367, 1293.949 1627 C 1288.602 1604.679, 1271.297 1578.229, 1244.534 1551.467 C 1193.211 1500.147, 1119.125 1464.172, 1009.972 1437.569 C 966.704 1427.023, 920.650 1418.640, 847.500 1407.993 C 743.771 1392.895, 731.707 1390.466, 694.292 1377.143 C 677.761 1371.257, 673.067 1369.030, 667.256 1364.317 C 653.620 1353.260, 654.254 1334.736, 668.542 1326.723 C 699.792 1309.197, 721.749 1304.095, 839.500 1286.998 C 941.196 1272.233, 997.170 1261.468, 1050.168 1246.483 C 1126.564 1224.883, 1182.642 1197.883, 1228.217 1160.757 C 1301.020 1101.452, 1314.472 1045.193, 1267.579 996.141 C 1243.074 970.508, 1187.619 940.289, 1154.508 934.526 C 1133.600 930.887, 1084.017 930.688, 1029.319 934.024 C 960.761 938.204, 900.751 963.907, 813.579 1026.426 C 783.812 1047.774, 751.732 1069.766, 716.694 1092.844 C 598.955 1170.394, 575.029 1187.160, 522 1229.276 C 512.861 1236.534, 506.139 1240.891, 497 1245.481 C 468.200 1259.946, 424.973 1276.604, 425.007 1273.225 C 425.011 1272.826, 426.354 1225.042, 427.992 1167.037 C 431.135 1055.661, 431.072 1037.710, 427.447 1013.300 C 418.123 950.502, 380.513 921.545, 302.383 917.008 C 283.840 915.932, 281.473 915.936, 259.300 917.090"/></g>
+      <g id="Path_e" fill-rule="evenodd"><path d="M 1717 1134.699 C 1633.218 1138.738, 1547.102 1176.093, 1490.052 1233.143 C 1427.796 1295.399, 1400.346 1378.169, 1411.500 1470 C 1428.696 1611.583, 1530.257 1706.989, 1680.208 1722.423 C 1720.593 1726.579, 1776.758 1724.825, 1824.500 1717.917 C 1910.162 1705.521, 1976.419 1676.953, 2019 1634.056 C 2046.428 1606.425, 2060.222 1577.154, 2058.783 1549.638 C 2058.206 1538.617, 2054.466 1529.450, 2045.252 1516.475 C 2014.181 1472.720, 1965.906 1462.064, 1907.515 1486.072 C 1873.479 1500.067, 1856.847 1520.290, 1833.970 1575.500 C 1815.027 1621.214, 1803.262 1636.750, 1782 1644.127 C 1773.597 1647.043, 1755.932 1647.315, 1746 1644.681 C 1700.297 1632.564, 1666.973 1580.029, 1654.505 1500.439 C 1653.131 1491.673, 1651.719 1480.405, 1651.367 1475.399 L 1650.726 1466.299 1667.613 1465.610 C 1893.096 1456.415, 2015.469 1410.970, 2038.170 1328 C 2040.252 1320.391, 2040.496 1317.350, 2040.498 1299 C 2040.500 1279.735, 2040.330 1277.848, 2037.680 1267.684 C 2019.863 1199.330, 1954.755 1157.322, 1841.500 1141.110 C 1806.053 1136.036, 1749.586 1133.128, 1717 1134.699 M 1752 1219.959 C 1719.305 1226.954, 1689.496 1251.821, 1672.233 1286.500 C 1663.375 1304.295, 1655.827 1329.352, 1652.622 1351.602 C 1650.811 1364.178, 1648.564 1396.898, 1649.451 1397.785 C 1650.406 1398.739, 1679.291 1394.189, 1696.411 1390.388 C 1777.493 1372.384, 1835.284 1338.918, 1848.060 1302.570 C 1857.475 1275.781, 1840.488 1240.530, 1811.325 1226.339 C 1794.665 1218.232, 1771.644 1215.757, 1752 1219.959"/></g>
+    </svg>
+  </div>
 
     <div id="hero-copy">
       <p class="text-xs tracking-widest uppercase" style="color:#7A7468;font-family:'Inter',sans-serif;margin-bottom:1.25rem">Retail Location Agency &amp; Commercial Leasing</p>
@@ -2548,9 +2549,9 @@
   }
 
   function onScroll() {
-    // nav logo appears once the hero logo has handed off (past the hero runway)
+    // nav logo appears exactly as the GSAP-docked logo fades (~88% of runway)
     const heroSection = document.getElementById('hero');
-    const handoff = heroSection ? heroSection.offsetHeight - innerHeight * 0.6 : 400;
+    const handoff = heroSection ? (heroSection.offsetHeight - innerHeight) * 0.86 : 400;
     if (window.scrollY > handoff) {
       if (navbar) navbar.classList.add('scrolled');
       if (navLogo) { navLogo.style.opacity = '1'; navLogo.classList.add('visible'); }
@@ -2597,11 +2598,7 @@
     let heroP = 0, heroTarget = 0, heroRaf = null;
 
     function heroApply(p) {
-      // logo: holds, then shrinks, lifts, and dissolves — gone by p = 0.75
-      const scale = 1 - p * 0.75;
-      const rise = -p * innerHeight * 0.58;
-      heroLogo.style.transform = 'translateY(' + rise.toFixed(1) + 'px) scale(' + scale.toFixed(3) + ')';
-      heroLogo.style.opacity = p < 0.35 ? 1 : Math.max(0, 1 - (p - 0.35) / 0.3);
+      // logo choreography is owned by the GSAP scrub timeline (Phase 2)
 
       // headline: surfaces as the logo hands off
       const c = Math.min(1, Math.max(0, (p - 0.4) / 0.35));
@@ -3205,5 +3202,104 @@
 
 </script>
 
+
+<!-- ══════════════════════════════════════
+     GSAP LOGO ENGINE — Phase 1 inflation + Phase 2 grid reshape
+══════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
+<script>
+(function () {
+  if (!window.gsap) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger, CustomEase);
+  CustomEase.create('lux', '0.16, 1, 0.3, 1');
+  document.documentElement.classList.add('gsap-ready');
+
+  var letters = { M: '#Path_M', a: '#Path_a', K: '#Path_K', e: '#Path_e' };
+  // letter bounding boxes in viewBox units (from the potrace separation)
+  var BB = {
+    M: { x: -4,   y: 0,    x2: 1306, y2: 865  },
+    a: { x: 1386, y: 230,  x2: 2068, y2: 850  },
+    K: { x: 29,   y: 916,  x2: 1314, y2: 1800 },
+    e: { x: 1400, y: 1133, x2: 2060, y2: 1727 }
+  };
+  function cx(b) { return (b.x + b.x2) / 2; }
+  function cy(b) { return (b.y + b.y2) / 2; }
+
+  // inflate each glyph from its own centre
+  for (var k in letters) gsap.set(letters[k], { svgOrigin: cx(BB[k]) + ' ' + cy(BB[k]) });
+
+  /* ── Phase 1 · on-load fluid inflation ── */
+  var inflate = gsap.timeline({ defaults: { ease: 'lux', duration: 1.1 } });
+  ['M', 'a', 'K', 'e'].forEach(function (key, i) {
+    inflate.fromTo(letters[key], { scale: 0, opacity: 0 }, { scale: 1, opacity: 1 }, i * 0.1);
+  });
+
+  /* ── Phase 2 · structural grid reshape, scroll-scrubbed ──
+     stacked  Ma / Ke  →  one row  M a K e
+     Row bottoms align on B = 1340 (a keeps −15, e keeps −73 from
+     their original row offsets); tracking 70 viewBox units.       */
+  var TRACK = 70, B = 1340, DOCK_SCALE = 0.5;
+  var W = {};
+  for (k in BB) W[k] = BB[k].x2 - BB[k].x;
+  var targetX = { M: 0 };
+  targetX.a = targetX.M + W.M + TRACK;
+  targetX.K = targetX.a + W.a + TRACK;
+  targetX.e = targetX.K + W.K + TRACK;
+  var targetBottom = { M: B, a: B - 15, K: B, e: B - 73 };
+  var D = {};
+  for (k in letters) D[k] = { x: targetX[k] - BB[k].x, y: targetBottom[k] - BB[k].y2 };
+
+  var wrapper = document.getElementById('hero-logo');
+  var navImg = document.querySelector('#nav-logo img');
+  var rowCenter = { x: (targetX.e + W.e) / 2, y: 898 };
+
+  // dock delta: land the reshaped row's centre on the nav logo's centre.
+  // measured with wrapper transforms cleared so the maths stay pure.
+  var dock = { x: 0, y: 0 };
+  function computeDock() {
+    var px = gsap.getProperty(wrapper, 'x'), py = gsap.getProperty(wrapper, 'y'),
+        ps = gsap.getProperty(wrapper, 'scaleX'), po = gsap.getProperty(wrapper, 'opacity');
+    gsap.set(wrapper, { x: 0, y: 0, scale: 1 });
+    var wr = wrapper.getBoundingClientRect();
+    var u = wr.width / 2069;                        // px per viewBox unit
+    var rowCxPx = wr.left + rowCenter.x * u;
+    var rowCyPx = wr.top + rowCenter.y * u;
+    var wCx = wr.left + wr.width / 2, wCy = wr.top + wr.height / 2;
+    var n = navImg ? navImg.getBoundingClientRect() : { left: 20, top: 12, width: 44, height: 40 };
+    dock.x = (n.left + n.width / 2) - (wCx + (rowCxPx - wCx) * DOCK_SCALE);
+    dock.y = (n.top + n.height / 2) - (wCy + (rowCyPx - wCy) * DOCK_SCALE);
+    gsap.set(wrapper, { x: px, y: py, scale: ps, opacity: po });
+  }
+  computeDock();
+  ScrollTrigger.addEventListener('refreshInit', computeDock);
+
+  var reshape = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#hero',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 1,
+      invalidateOnRefresh: true
+    },
+    defaults: { ease: 'none' }
+  });
+
+  reshape
+    .to(letters.M, { x: D.M.x, y: D.M.y, duration: 0.55 }, 0)
+    .to(letters.a, { x: D.a.x, y: D.a.y, duration: 0.55 }, 0)
+    .to(letters.K, { x: D.K.x, y: D.K.y, duration: 0.55 }, 0)
+    .to(letters.e, { x: D.e.x, y: D.e.y, duration: 0.55 }, 0)
+    .to(wrapper, {
+      scale: DOCK_SCALE,
+      x: function () { return dock.x; },
+      y: function () { return dock.y; },
+      duration: 0.45
+    }, 0.35)
+    .to(wrapper, { opacity: 0, duration: 0.12 }, 0.88);
+})();
+</script>
 </body>
 </html>
