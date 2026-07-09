@@ -3261,6 +3261,7 @@
 
   var wrapper = document.getElementById('hero-logo');
   var navImg = document.querySelector('#nav-logo img');
+  var navbarEl = document.getElementById('navbar');
 
   // REST = the scale the widened row settles at (shrinks as it spreads so it
   // always fits the stage); dock = where/what size it lands in the header.
@@ -3283,9 +3284,18 @@
     // dock is simply: move wrapper centre → nav centre, shrink to nav height
     var Cx = wr.left + wr.width / 2, Cy = wr.top + wr.height / 2;
     var n = navImg ? navImg.getBoundingClientRect() : { left: 20, top: 12, width: 44, height: 40 };
-    dock.x = (n.left + n.width / 2) - Cx;
-    dock.y = (n.top + n.height / 2) - Cy;
+    // the navbar is hidden (translated up) until the user scrolls, so at load
+    // the nav logo sits ABOVE the viewport. Correct for that transform so the
+    // logo docks to where the nav logo will actually BE once the bar is shown
+    // (navbar is position:fixed top:0 → its resting top is 0).
+    var navShift = navbarEl ? navbarEl.getBoundingClientRect().top : 0;
     dock.scale = Math.max(0.26, (n.height * 0.92) / (884 * u)); // row is 884 units tall
+    // the docked row is a wide horizontal wordmark, far wider than the small
+    // nav mark — so align its LEFT edge to the nav gutter (not centre-on-centre)
+    // and vertical-centre it on the nav logo, keeping the whole word on screen
+    var rowScreenW = rowWidth * u * dock.scale;
+    dock.x = (n.left + rowScreenW / 2) - Cx;
+    dock.y = (n.top - navShift + n.height / 2) - Cy;
     gsap.set(wrapper, { x: px, y: py, scale: ps, opacity: po });
   }
   computeLayout();
