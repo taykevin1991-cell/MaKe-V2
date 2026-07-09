@@ -3228,8 +3228,12 @@
   function cx(b) { return (b.x + b.x2) / 2; }
   function cy(b) { return (b.y + b.y2) / 2; }
 
-  // inflate each glyph from its own centre
-  for (var k in letters) gsap.set(letters[k], { svgOrigin: cx(BB[k]) + ' ' + cy(BB[k]) });
+  // transform origin = each glyph's own centre, on both the <g> (inflation +
+  // reshape) and its inner <path> (ambient float), so nothing rotates about 0,0
+  for (var k in letters) {
+    gsap.set(letters[k], { svgOrigin: cx(BB[k]) + ' ' + cy(BB[k]) });
+    gsap.set(letters[k] + ' path', { svgOrigin: cx(BB[k]) + ' ' + cy(BB[k]) });
+  }
 
   /* ── Phase 1 · on-load fluid inflation ── */
   var inflate = gsap.timeline({ defaults: { ease: 'lux', duration: 1.1 } });
@@ -3238,47 +3242,49 @@
   });
 
   /* ── Phase 2 · structural grid reshape, scroll-scrubbed ──
-     stacked  Ma / Ke  →  one row  M a K e
-     Row bottoms align on B = 1340 (a keeps −15, e keeps −73 from
-     their original row offsets); tracking 70 viewBox units.       */
-  var TRACK = 70, B = 1340, DOCK_SCALE = 0.5;
+     stacked  Ma / Ke  →  one centred row  M a K e
+     The row is laid out symmetrically about the viewBox centre (1034.5):
+     M & a drift left, K & e drift right + rise. Because the spread is
+     balanced about centre and the wrapper never translates in x during
+     formation, the word stays perfectly centred on screen at every frame
+     — nothing can slide off either edge. Bottoms align on B = 1340.      */
+  var TRACK = 60, B = 1340;
   var W = {};
   for (k in BB) W[k] = BB[k].x2 - BB[k].x;
-  var targetX = { M: 0 };
-  targetX.a = targetX.M + W.M + TRACK;
-  targetX.K = targetX.a + W.a + TRACK;
-  targetX.e = targetX.K + W.K + TRACK;
+  var order = ['M', 'a', 'K', 'e'];
+  var rowWidth = order.reduce(function (s, key, i) { return s + W[key] + (i ? TRACK : 0); }, 0);
+  var acc = (2069 - rowWidth) / 2, targetLeft = {};
+  order.forEach(function (key) { targetLeft[key] = acc; acc += W[key] + TRACK; });
   var targetBottom = { M: B, a: B - 15, K: B, e: B - 73 };
   var D = {};
-  for (k in letters) D[k] = { x: targetX[k] - BB[k].x, y: targetBottom[k] - BB[k].y2 };
+  for (k in letters) D[k] = { x: targetLeft[k] - BB[k].x, y: targetBottom[k] - BB[k].y2 };
 
   var wrapper = document.getElementById('hero-logo');
   var navImg = document.querySelector('#nav-logo img');
-  var rowCenter = { x: (targetX.e + W.e) / 2, y: 898 };
 
-  // dock delta: land the reshaped row's centre on the nav logo's centre.
-  // measured with wrapper transforms cleared so the maths stay pure.
-  var dock = { x: 0, y: 0 };
-  var centerShift = { x: 0 };                       // keeps the forming row centred on screen
-  function computeDock() {
+  // REST = the scale the widened row settles at (shrinks as it spreads so it
+  // always fits the stage); dock = where/what size it lands in the header.
+  // Recomputed on every ScrollTrigger refresh so it stays responsive.
+  var REST = 0.9, dock = { x: 0, y: 0, scale: 0.4 };
+  function computeLayout() {
+    REST = window.matchMedia('(max-width: 768px)').matches ? 0.64 : 0.9;
     var px = gsap.getProperty(wrapper, 'x'), py = gsap.getProperty(wrapper, 'y'),
         ps = gsap.getProperty(wrapper, 'scaleX'), po = gsap.getProperty(wrapper, 'opacity');
     gsap.set(wrapper, { x: 0, y: 0, scale: 1 });
     var wr = wrapper.getBoundingClientRect();
     var u = wr.width / 2069;                        // px per viewBox unit
-    // the final row's centre sits right of the viewBox centre; shift the
-    // wrapper left by that amount so the row forms centred in the viewport
-    centerShift.x = (1034.5 - rowCenter.x) * u;
-    var rowCxPx = wr.left + centerShift.x + rowCenter.x * u;
-    var rowCyPx = wr.top + rowCenter.y * u;
-    var wCx = wr.left + centerShift.x + wr.width / 2, wCy = wr.top + wr.height / 2;
+    // the reshaped row's centre coincides with the wrapper's centre (row is
+    // centred in the viewBox); scaling about centre keeps it there, so the
+    // dock is simply: move wrapper centre → nav centre, shrink to nav height
+    var Cx = wr.left + wr.width / 2, Cy = wr.top + wr.height / 2;
     var n = navImg ? navImg.getBoundingClientRect() : { left: 20, top: 12, width: 44, height: 40 };
-    dock.x = centerShift.x + (n.left + n.width / 2) - (wCx + (rowCxPx - wCx) * DOCK_SCALE);
-    dock.y = (n.top + n.height / 2) - (wCy + (rowCyPx - wCy) * DOCK_SCALE);
+    dock.x = (n.left + n.width / 2) - Cx;
+    dock.y = (n.top + n.height / 2) - Cy;
+    dock.scale = Math.max(0.26, (n.height * 0.92) / (884 * u)); // row is 884 units tall
     gsap.set(wrapper, { x: px, y: py, scale: ps, opacity: po });
   }
-  computeDock();
-  ScrollTrigger.addEventListener('refreshInit', computeDock);
+  computeLayout();
+  ScrollTrigger.addEventListener('refreshInit', computeLayout);
 
   // the hero is the document's first section, so its runway is simply
   // [0, heroHeight - viewport] — absolute values sidestep rect-measurement
@@ -3295,37 +3301,37 @@
   });
 
   reshape
-    // act 1 · the row forms, held centred in the viewport.
-    // K and e take an L-shaped path — slide right along the vacated
-    // bottom row, then rise into their slots — so no letters collide
-    .to(letters.M, { x: D.M.x, y: D.M.y, duration: 0.4 }, 0)
-    .to(letters.a, { x: D.a.x, y: D.a.y, duration: 0.4 }, 0)
+    // act 1 · the row forms (M & a drift left, K & e slide right then rise);
+    // the wrapper shrinks to REST in lock-step so the widening word always fits
+    .to(letters.M, { x: D.M.x, y: D.M.y, duration: 0.42 }, 0)
+    .to(letters.a, { x: D.a.x, y: D.a.y, duration: 0.42 }, 0)
     .to(letters.K, { x: D.K.x, duration: 0.3 }, 0)
-    .to(letters.K, { y: D.K.y, duration: 0.26 }, 0.24)
-    .to(letters.e, { x: D.e.x, duration: 0.3 }, 0.05)
-    .to(letters.e, { y: D.e.y, duration: 0.26 }, 0.24)
-    .to(wrapper, { x: function () { return centerShift.x; }, duration: 0.5 }, 0)
-    // act 2 · the unified mark downscales 50% and docks into the header
+    .to(letters.K, { y: D.K.y, duration: 0.24 }, 0.2)
+    .to(letters.e, { x: D.e.x, duration: 0.3 }, 0.04)
+    .to(letters.e, { y: D.e.y, duration: 0.24 }, 0.2)
+    .to(wrapper, { scale: function () { return REST; }, duration: 0.42 }, 0)
+    // act 2 · the unified mark docks into the header
     .to(wrapper, {
-      scale: DOCK_SCALE,
+      scale: function () { return dock.scale; },
       x: function () { return dock.x; },
       y: function () { return dock.y; },
-      duration: 0.32
-    }, 0.53)
-    .to(wrapper, { opacity: 0, duration: 0.12 }, 0.88);
+      duration: 0.34
+    }, 0.52)
+    .to(wrapper, { opacity: 0, duration: 0.12 }, 0.9);
 
-  /* ── ambient idle motion · life before the first scroll ──
-     applied to the inner <path> elements so it never fights the
-     scrub timeline, which owns the <g> transforms                */
-  ['M', 'a', 'K', 'e'].forEach(function (key, i) {
-    gsap.to(letters[key] + ' path', {
-      y: i % 2 ? 13 : -13,
-      duration: 2.6 + i * 0.35,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: 1.2 + i * 0.18
-    });
+  /* ── ambient idle motion · elegant floating letters (before any scroll) ──
+     lives on the inner <path> elements (float y, gentle sway, soft breath)
+     so it never collides with the <g> transforms the scrub timeline owns.   */
+  order.forEach(function (key, i) {
+    var p = letters[key] + ' path';
+    gsap.to(p, { y: (i % 2 ? 1 : -1) * (10 + i * 2), duration: 2.6 + i * 0.4,
+                 ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.1 + i * 0.15 });
+    gsap.to(p, { rotation: (i % 2 ? -1 : 1) * 1.2, duration: 3.9 + i * 0.5,
+                 ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.3 + i * 0.2 });
+  });
+  // a slow shared "breath" — all four letters pulse together, barely
+  gsap.to(order.map(function (key) { return letters[key] + ' path'; }), {
+    scale: 1.018, duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5
   });
 })();
 </script>
