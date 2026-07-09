@@ -3267,12 +3267,17 @@
   // Recomputed on every ScrollTrigger refresh so it stays responsive.
   var REST = 0.9, dock = { x: 0, y: 0, scale: 0.4 };
   function computeLayout() {
-    REST = window.matchMedia('(max-width: 768px)').matches ? 0.64 : 0.9;
     var px = gsap.getProperty(wrapper, 'x'), py = gsap.getProperty(wrapper, 'y'),
         ps = gsap.getProperty(wrapper, 'scaleX'), po = gsap.getProperty(wrapper, 'opacity');
     gsap.set(wrapper, { x: 0, y: 0, scale: 1 });
     var wr = wrapper.getBoundingClientRect();
     var u = wr.width / 2069;                        // px per viewBox unit
+    // adaptive rest-scale: guarantee the formed row (plus the ~6% wider
+    // transient mid-morph frame) never exceeds 74% of the viewport, so it
+    // stays fully visible with generous margins on ANY screen width
+    var baseREST = window.matchMedia('(max-width: 768px)').matches ? 0.66 : 0.9;
+    var fitREST = (0.74 * window.innerWidth) / (rowWidth * 1.06 * u);
+    REST = Math.min(baseREST, fitREST);
     // the reshaped row's centre coincides with the wrapper's centre (row is
     // centred in the viewBox); scaling about centre keeps it there, so the
     // dock is simply: move wrapper centre → nav centre, shrink to nav height
