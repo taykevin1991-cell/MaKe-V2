@@ -3241,43 +3241,67 @@
     inflate.fromTo(letters[key], { scale: 0, opacity: 0 }, { scale: 1, opacity: 1 }, i * 0.1);
   });
 
-  /* ── Phase 2 · scroll-scrubbed dock ──
-     A 2×2 grid (M a / K e) cannot morph into a single row without the 'a'
-     (top-right) and 'K' (bottom-left) swapping sides — they cross straight
-     through each other and collide mid-morph. So the stacked mark stays
-     intact and simply scales down + glides into the header. Bonus: it then
-     matches the nav logo exactly, since both ARE this stacked mark, so the
-     hand-off is a perfect overlap. Clean, premium, no collision, no clip.   */
+  /* ── Phase 2 · horizontal reshape (collision-free), scroll-scrubbed ──
+     A CENTRED row forces 'a' (top-right) and 'K' (bottom-left) to swap sides
+     and crash through each other. Instead we anchor M and a in place and send
+     K and e on an L-path — dip DOWN clear of 'a', slide RIGHT past it, then
+     rise into the row — so no two letters ever cross. The wrapper re-centres
+     the finished row and docks it into the header.                           */
   var wrapper = document.getElementById('hero-logo');
   var navImg = document.querySelector('#nav-logo img');
   var navbarEl = document.getElementById('navbar');
+  var order = ['M', 'a', 'K', 'e'];
+  var W = {}; for (k in BB) W[k] = BB[k].x2 - BB[k].x;
 
-  var dock = { x: 0, y: 0, scale: 0.22 };
+  var TRACK = 70, BASE = 850;                        // row baseline = a's bottom
+  var targetLeft = {};
+  targetLeft.a = BB.a.x;                             // 'a' is the anchor — it stays
+  targetLeft.M = BB.a.x - TRACK - W.M;              // M just left of a
+  targetLeft.K = BB.a.x2 + TRACK;                   // K appended right of a
+  targetLeft.e = targetLeft.K + W.K + TRACK;        // e right of K
+  var D = {};
+  for (k in BB) D[k] = { x: targetLeft[k] - BB[k].x, y: BASE - BB[k].y2 };
+  var rowLeft = targetLeft.M, rowRight = targetLeft.e + W.e;
+  var rowCenter = (rowLeft + rowRight) / 2, rowW = rowRight - rowLeft;
+  var rowH = 884;                                    // tallest glyph (K) ≈ row height
+  var rowCenterY = BASE - rowH / 2;                  // the row sits high (a stays up)
+  var DIP = 300;                                     // K/e drop below 'a' for clearance
+
+  var REST = 0.66, centerShiftX = 0, dock = { x: 0, y: 0, scale: 0.22 };
   function computeLayout() {
     var px = gsap.getProperty(wrapper, 'x'), py = gsap.getProperty(wrapper, 'y'),
         ps = gsap.getProperty(wrapper, 'scaleX'), po = gsap.getProperty(wrapper, 'opacity');
     gsap.set(wrapper, { x: 0, y: 0, scale: 1 });
     var wr = wrapper.getBoundingClientRect();
+    var u = wr.width / 2069;                         // px per viewBox unit
+    // fit the finished row to ≤72% of the viewport on any width
+    var baseREST = window.matchMedia('(max-width: 768px)').matches ? 0.66 : 0.9;
+    REST = Math.min(baseREST, (0.72 * window.innerWidth) / (rowW * u));
+    // uniform x-shift that re-centres the row on screen (at REST scale, about centre)
+    centerShiftX = (1034.5 - rowCenter) * u * REST;
     var Cx = wr.left + wr.width / 2, Cy = wr.top + wr.height / 2;
     var n = navImg ? navImg.getBoundingClientRect() : { left: 20, top: 12, width: 44, height: 40 };
-    // the navbar is hidden (translated up) until the user scrolls, so at load
-    // the nav logo sits ABOVE the viewport — correct for that so the mark docks
-    // to where the nav logo will actually be once the bar slides into view
+    // navbar is hidden (translated up) until scroll — correct for that transform
     var navShift = navbarEl ? navbarEl.getBoundingClientRect().top : 0;
-    dock.scale = (n.height * 1.02) / wr.height;     // match the nav mark's height
-    dock.x = (n.left + n.width / 2) - Cx;            // centre-on-centre (same shape)
-    dock.y = (n.top - navShift + n.height / 2) - Cy;
+    // dock: shrink the row into the header. The row sits HIGH in the wrapper
+    // (not centred), so dock its true centre — not the wrapper centre — onto
+    // the nav position, left-aligned to the gutter, or its top clips off-screen.
+    dock.scale = Math.max(0.24, (n.height * 0.95) / (rowH * u));
+    var rowCxS = wr.left + rowCenter * u;           // row centre at scale 1
+    var rowCyS = wr.top + rowCenterY * u;
+    var navCy = n.top - navShift + n.height / 2;
+    var targetCx = n.left + (rowW * u * dock.scale) / 2;   // left-align to gutter
+    dock.x = targetCx - (Cx + (rowCxS - Cx) * dock.scale);
+    dock.y = navCy - (Cy + (rowCyS - Cy) * dock.scale);
     gsap.set(wrapper, { x: px, y: py, scale: ps, opacity: po });
   }
   computeLayout();
   ScrollTrigger.addEventListener('refreshInit', computeLayout);
 
   // the hero is the document's first section, so its runway is simply
-  // [0, heroHeight - viewport] — absolute values sidestep rect-measurement
-  // races with browser scroll restoration
+  // [0, heroHeight - viewport] — absolute values sidestep rect-measurement races
   var heroEl = document.getElementById('hero');
-  var order = ['M', 'a', 'K', 'e'];
-  var dockTL = gsap.timeline({
+  var tl = gsap.timeline({
     scrollTrigger: {
       start: 0,
       end: function () { return heroEl.offsetHeight - window.innerHeight; },
@@ -3286,16 +3310,29 @@
     },
     defaults: { ease: 'none' }
   });
-  dockTL
-    // the mark glides up-left and shrinks into the header over most of the runway
+  tl
+    // M and a settle onto the row baseline (small moves — no crossing)
+    .to(letters.M, { x: D.M.x, y: D.M.y, duration: 0.4 }, 0)
+    .to(letters.a, { x: D.a.x, y: D.a.y, duration: 0.4 }, 0)
+    // K and e · move in SYNC on the same L-path (dip below a → slide right
+    // past a → rise). Synced, K's right edge stays 60 units left of e's left
+    // edge the whole way, so they never overlap and stay in reading order.
+    .to(letters.K, { y: DIP, duration: 0.12 }, 0)
+    .to(letters.e, { y: DIP, duration: 0.12 }, 0)
+    .to(letters.K, { x: D.K.x, duration: 0.3 }, 0.06)
+    .to(letters.e, { x: D.e.x, duration: 0.3 }, 0.06)
+    .to(letters.K, { y: D.K.y, duration: 0.22 }, 0.32)
+    .to(letters.e, { y: D.e.y, duration: 0.22 }, 0.32)
+    // wrapper fits + re-centres the forming row in lock-step
+    .to(wrapper, { scale: function () { return REST; }, x: function () { return centerShiftX; }, duration: 0.6 }, 0)
+    // dock the finished row into the header
     .to(wrapper, {
       scale: function () { return dock.scale; },
       x: function () { return dock.x; },
       y: function () { return dock.y; },
-      duration: 0.86
-    }, 0)
-    // then a quick cross-fade hands off to the real nav logo
-    .to(wrapper, { opacity: 0, duration: 0.12 }, 0.88);
+      duration: 0.28
+    }, 0.62)
+    .to(wrapper, { opacity: 0, duration: 0.1 }, 0.9);
 
   /* ── ambient idle motion · elegant floating letters (before any scroll) ──
      lives on the inner <path> elements (float y, gentle sway, soft breath)
