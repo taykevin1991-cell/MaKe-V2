@@ -2600,8 +2600,8 @@
     function heroApply(p) {
       // logo choreography is owned by the GSAP scrub timeline (Phase 2)
 
-      // headline: surfaces as the logo hands off
-      const c = Math.min(1, Math.max(0, (p - 0.4) / 0.35));
+      // headline: surfaces as the docked mark lifts away
+      const c = Math.min(1, Math.max(0, (p - 0.58) / 0.3));
       heroCopy.style.opacity = c;
       heroCopy.style.transform = 'translateX(-50%) translateY(' + (30 * (1 - c)).toFixed(1) + 'px)';
 
@@ -2672,7 +2672,7 @@
 
     // scenes for wayfinding
     const scenes = [
-      ['hero', 'Opening'],
+      ['hero', ''],
       ['projects', 'The Placements'],
       ['dev-projects', 'The Spaces'],
       ['clients', 'The Company We Keep'],
@@ -2710,7 +2710,7 @@
           if (s.el.getBoundingClientRect().top < innerHeight * 0.5) active = s;
         }
         if (active) {
-          const text = 'Scene ' + String(active.i + 1).padStart(2, '0') + ' — ' + active.label;
+          const text = 'Scene ' + String(active.i + 1).padStart(2, '0') + (active.label ? ' — ' + active.label : '');
           if (marker.textContent !== text) marker.textContent = text;
           marker.classList.add('visible');
         } else {
@@ -3259,28 +3259,35 @@
   // dock delta: land the reshaped row's centre on the nav logo's centre.
   // measured with wrapper transforms cleared so the maths stay pure.
   var dock = { x: 0, y: 0 };
+  var centerShift = { x: 0 };                       // keeps the forming row centred on screen
   function computeDock() {
     var px = gsap.getProperty(wrapper, 'x'), py = gsap.getProperty(wrapper, 'y'),
         ps = gsap.getProperty(wrapper, 'scaleX'), po = gsap.getProperty(wrapper, 'opacity');
     gsap.set(wrapper, { x: 0, y: 0, scale: 1 });
     var wr = wrapper.getBoundingClientRect();
     var u = wr.width / 2069;                        // px per viewBox unit
-    var rowCxPx = wr.left + rowCenter.x * u;
+    // the final row's centre sits right of the viewBox centre; shift the
+    // wrapper left by that amount so the row forms centred in the viewport
+    centerShift.x = (1034.5 - rowCenter.x) * u;
+    var rowCxPx = wr.left + centerShift.x + rowCenter.x * u;
     var rowCyPx = wr.top + rowCenter.y * u;
-    var wCx = wr.left + wr.width / 2, wCy = wr.top + wr.height / 2;
+    var wCx = wr.left + centerShift.x + wr.width / 2, wCy = wr.top + wr.height / 2;
     var n = navImg ? navImg.getBoundingClientRect() : { left: 20, top: 12, width: 44, height: 40 };
-    dock.x = (n.left + n.width / 2) - (wCx + (rowCxPx - wCx) * DOCK_SCALE);
+    dock.x = centerShift.x + (n.left + n.width / 2) - (wCx + (rowCxPx - wCx) * DOCK_SCALE);
     dock.y = (n.top + n.height / 2) - (wCy + (rowCyPx - wCy) * DOCK_SCALE);
     gsap.set(wrapper, { x: px, y: py, scale: ps, opacity: po });
   }
   computeDock();
   ScrollTrigger.addEventListener('refreshInit', computeDock);
 
+  // the hero is the document's first section, so its runway is simply
+  // [0, heroHeight - viewport] — absolute values sidestep rect-measurement
+  // races with browser scroll restoration
+  var heroEl = document.getElementById('hero');
   var reshape = gsap.timeline({
     scrollTrigger: {
-      trigger: '#hero',
-      start: 'top top',
-      end: 'bottom bottom',
+      start: 0,
+      end: function () { return heroEl.offsetHeight - window.innerHeight; },
       scrub: 1,
       invalidateOnRefresh: true
     },
@@ -3288,17 +3295,38 @@
   });
 
   reshape
-    .to(letters.M, { x: D.M.x, y: D.M.y, duration: 0.55 }, 0)
-    .to(letters.a, { x: D.a.x, y: D.a.y, duration: 0.55 }, 0)
-    .to(letters.K, { x: D.K.x, y: D.K.y, duration: 0.55 }, 0)
-    .to(letters.e, { x: D.e.x, y: D.e.y, duration: 0.55 }, 0)
+    // act 1 · the row forms, held centred in the viewport.
+    // K and e take an L-shaped path — slide right along the vacated
+    // bottom row, then rise into their slots — so no letters collide
+    .to(letters.M, { x: D.M.x, y: D.M.y, duration: 0.4 }, 0)
+    .to(letters.a, { x: D.a.x, y: D.a.y, duration: 0.4 }, 0)
+    .to(letters.K, { x: D.K.x, duration: 0.3 }, 0)
+    .to(letters.K, { y: D.K.y, duration: 0.26 }, 0.24)
+    .to(letters.e, { x: D.e.x, duration: 0.3 }, 0.05)
+    .to(letters.e, { y: D.e.y, duration: 0.26 }, 0.24)
+    .to(wrapper, { x: function () { return centerShift.x; }, duration: 0.5 }, 0)
+    // act 2 · the unified mark downscales 50% and docks into the header
     .to(wrapper, {
       scale: DOCK_SCALE,
       x: function () { return dock.x; },
       y: function () { return dock.y; },
-      duration: 0.45
-    }, 0.35)
+      duration: 0.32
+    }, 0.53)
     .to(wrapper, { opacity: 0, duration: 0.12 }, 0.88);
+
+  /* ── ambient idle motion · life before the first scroll ──
+     applied to the inner <path> elements so it never fights the
+     scrub timeline, which owns the <g> transforms                */
+  ['M', 'a', 'K', 'e'].forEach(function (key, i) {
+    gsap.to(letters[key] + ' path', {
+      y: i % 2 ? 13 : -13,
+      duration: 2.6 + i * 0.35,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: 1.2 + i * 0.18
+    });
+  });
 })();
 </script>
 </body>
